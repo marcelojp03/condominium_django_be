@@ -1,0 +1,152 @@
+├── be_condominium/
+│   ├── __pycache__/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+│   └── modules/
+│       ├── ad/
+│       │   ├── __pycache__/
+│       │   ├── controllers/
+│       │   ├── dtos/
+│       │   ├── migrations/
+│       │   ├── models/
+│       │   ├── repositories/
+│       │   └── services/
+│       │       └── __init__.py
+│       │
+│       ├── ai_security/
+│       │   ├── __pycache__/
+│       │   ├── controllers/
+│       │   │   └── face_controller.py
+│       │   ├── dtos/
+│       │   ├── migrations/
+│       │   ├── models/
+│       │   │   ├── __pycache__/
+│       │   │   ├── __init__.py
+│       │   │   ├── access_event.py
+│       │   │   └── resident.py
+│       │   ├── repositories/
+│       │   └── services/
+│       │       └── __init__.py
+│       │
+│       └── urls.py
+│
+├── access_events/   # parece otra app independiente
+│
+├── hamilton_loEx7eN.jpg
+├── hamilton.jpg
+└── sena.jpg
+
+
+S3 bucket name:
+Save this location for future reference
+custom-labels-console-us-east-1-198bb6a6b8
+
+--migrar cada vez que se agrega o modifica algun modelo
+python manage.py makemigrations ai_security
+python manage.py migrate
+
+--correr el servidor
+python manage.py runserver
+
+
+--insertar un residente
+select * from ai_security_resident
+
+INSERT INTO public.ai_security_resident
+( "name", unit, reference_image, rekognition_face_id)
+VALUES( 'Montoya', 'A-102', '', '');
+
+--subir imagen al bucket de S3
+C:\fotos>aws s3 cp montoya.jpg s3://vpay-paybox-bucket/faces/montoya.jpg
+upload: .\montoya.jpg to s3://vpay-paybox-bucket/faces/montoya.jpg
+
+
+--crear la colección:
+aws rekognition create-collection --collection-id visitantes-condominio
+(env) C:\repository-mjp\condominium_django_be\be_condominium>aws rekognition create-collection --collection-id visitantes-condominio
+{
+    "StatusCode": 200,
+    "CollectionArn": "aws:rekognition:us-east-1:851725478821:collection/visitantes-condominio",
+    "FaceModelVersion": "7.0"
+}
+
+--listar collections
+aws rekognition list-collections
+(env) C:\repository-mjp\condominium_django_be\be_condominium>aws rekognition list-collections
+{
+    "CollectionIds": [
+        "residentes-condominio",
+        "visitantes-condominio"
+    ],
+    "FaceModelVersions": [
+        "7.0",
+        "7.0"
+    ]
+}
+
+
+
+
+
+
+Funcionalidades en la Aplicación Móvil
+1. Finanzas
+• Consulta y pago en línea de cuotas y servicios.
+• Recordatorios automáticos de vencimiento.
+• Historial de pagos con comprobantes.
+2. Comunicación
+• Publicación de avisos y/o comunicados de la administración
+•
+3. Reservas de Áreas Comunes
+• Reservas rápidas desde el móvil.
+• Confirmaciones y Pagos
+4. Notificaciones
+• Notificaciones tipo Push en tiempo real en el celular ante incidentes detectados
+por IA (ej. acceso no autorizado, persona desconocida en área restringida).
+
+Funcionalidades en la Aplicación Web
+1. Gestión Administrativa
+• Registro de usuarios, roles y unidades habitacionales.
+• Administración de cuotas y reportes financieros.
+• Configuración de precios de expensas, multas y otros
+• Publicación de avisos generales.
+2. Seguridad con IA
+• Control centralizado de cámaras con visión artificial para:
+o Reconocimiento facial de residentes autorizados.
+o Detección automática de visitantes no registrados.
+o Identificación de vehículos (lectura automática de placas con OCR).
+o Alertas de comportamiento sospechoso (ej. Perros sueltos dentro el
+condominio, perros haciendo necesidades, vehículos mal estacionados en
+zona de parqueo y otros)
+• Registro automático de ingresos/salidas de visitantes con foto.
+3. Gestión de Áreas Comunes
+• Configuración de disponibilidad y horarios.
+• Reportes de uso de instalaciones.
+• Generación de ingresos por alquiler de espacios comunes.
+4. 5. Gestión de Mantenimiento
+• Asignación de tareas a personal interno o externo.
+• Seguimiento de mantenimientos preventivos.
+• Reportes de costos asociados a reparaciones.
+5. Reportes y Analítica
+• Indicadores financieros (morosidad, ingresos/egresos).
+• Estadísticas de seguridad con IA (accesos no autorizados, incidentes detectados).
+• Uso de áreas comunes y servicios.
+• Reportes visuales para toma de decisiones.
+
+Servicios de Inteligencia Artificial y Visión Artificial
+El sistema contará con un módulo de IA integrado, enfocado en seguridad y automatización:
+1. Reconocimiento Facial
+ Acceso automático a residentes sin necesidad de llaves o tarjetas.
+ Alertas cuando una persona no autorizada intenta ingresar.
+2. Control de Visitantes con Visión Artificial
+ Registro automático de visitantes mediante foto al ingreso.
+3. Reconocimiento de Vehículos (OCR + IA)
+ Lectura automática de placas vehiculares en la entrada.
+ Control de acceso para autos autorizados.
+4. Detección de Anomalías
+ Identificación de movimientos sospechosos en áreas restringidas.
+5. Analítica Predictiva
+ Predicción de morosidad financiera según histórico de pagos basada en I.A.
