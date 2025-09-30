@@ -6,8 +6,8 @@ def obtener_todos():
 def obtener(usuario_id):
     return usuario_repository.obtener_por_id(usuario_id)
 
-def crear(datos):
-    return usuario_repository.crear(datos)
+def crear(datos, rol_id=None):
+    return usuario_repository.crear(datos, rol_id)
 
 def actualizar(usuario_id, datos):
     usuario = usuario_repository.obtener_por_id(usuario_id)

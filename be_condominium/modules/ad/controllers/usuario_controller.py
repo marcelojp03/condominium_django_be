@@ -20,9 +20,10 @@ def obtener_usuario(request, usuario_id):
 
 @api_view(['POST'])
 def crear_usuario(request):
+    rol_id = request.data.get('rol_id')
     serializer = UsuarioSerializer(data=request.data)
     if serializer.is_valid():
-        usuario = usuario_service.crear(serializer.validated_data)
+        usuario = usuario_service.crear(serializer.validated_data, rol_id)
         return Response(UsuarioSerializer(usuario).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
