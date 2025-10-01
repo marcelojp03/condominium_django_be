@@ -20,5 +20,6 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ad/', include('modules.ad.urls')),  # Rutas de administración
-    path('api/ai/', include('modules.ai_security.urls')),
+    path('api/ai/', include('modules.ai_security.urls')),# Rutas de IA
+    path('cn/', include('modules.cn.urls')),  # Rutas de Contabilidad
 ]

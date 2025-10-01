@@ -1,0 +1,69 @@
+
+
+
+
+insert into ad_rol(nombre,descripcion,estado)values('ADMINISTRADOR','ROL ADMINISTRADOR',true);
+insert into ad_rol(nombre,descripcion,estado)values('RESIDENTE','ROL RESIDENTE',true);
+insert into ad_rol(nombre,descripcion,estado)values('SEGURIDAD','ROL SEGURIDAD',true);
+
+--tienen que estar creados los usuarios 1,2 y 3
+INSERT INTO public.ad_usuariorol( rol_id, usuario_id)VALUES( 1, 1);
+INSERT INTO public.ad_usuariorol( rol_id, usuario_id)VALUES( 2, 2);
+INSERT INTO public.ad_usuariorol( rol_id, usuario_id)VALUES( 3, 3);
+
+--opciones del menu del primer nivel
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Administracion', 'Menu raiz Administracion');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Seguridad', 'Menu raiz Seguridad');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Areas Comunes', 'Menu raiz Areas comunes');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Mantenimiento', 'Menu raiz Mantenimiento');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Reportes', 'Menu raiz Reportes');
+
+--opciones para el menu Administracion
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Usuarios', 'submenu 1 de Administracion', '/dashboard/usuarios', 1);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Roles', 'submenu 2 de Administracion', '/dashboard/roles', 1);
+--opciones para el menu Seguridad
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Camaras', 'submenu 1 de Seguridad', '/dashboard/camaras', 2);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Visitantes', 'submenu 2 de Seguridad', '/dashboard/visitantes', 2);
+--opciones para el menu Areas comunes
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Reservas', 'submenu 1 de Areas comunes', '/dashboard/reservas', 3);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Ingresos', 'submenu 2 de Areas comunes', '/dashboard/ingresos', 3);
+--opciones para el menu Mantenimiento
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Tareas', 'submenu 1 de Mantenimiento', '/dashboard/tareas', 4);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Preventivos', 'submenu 2 de mantenimiento', '/dashboard/preventivos', 4);
+--opciones para el menu Reportes
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Financieros', 'submenu 1 de reportes', '/dashboard/reportes/financieros', 5);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Seguridad IA', 'submenu 2 de reportes', '/dashboard/reportes/seguridad', 5);
+
+--Asignar el submenu Usuarios y roles al menu Administracion al usuario 1
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(1, 1, 1);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(1, 1, 2);
+
+--Asignar el submenu camaras y visitantes al menu Seguridad al usuario 1
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 1, 3);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 1, 4);
+
+--Asignar el submenu reservas y ingresos al menu Areas comunes al usuario 1
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 1, 5);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 1, 6);
+
+--Asignar el submenu tareas y preventivos al menu Mantenimiento al usuario 1
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(4, 1, 7);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(4, 1, 8);
+
+--Asignar el submenu financieros y seguridad al menu Reportes al usuario 1
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 1, 9);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 1, 10);
+
+
+-- Usuario 2 tiene el rol residente
+--Rol Residente solo tiene acceso al menu Areas Comunes
+--Asignar el submenu reservas y ingresos del menu Areas comunes al usuario 2
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 2, 5);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 2, 6);
+
+
+-- Usuario 3 tiene el rol seguridad
+--Rol Seguridad solo tiene acceso al menu Seguridad
+--Asignar el submenu camaras y visitantes del menu Seguridad al usuario 3
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 3, 3);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 3, 4);
