@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'modules.ad',
     'modules.ai_security',
+    'modules.cn',
 ]
 
 REST_FRAMEWORK = {

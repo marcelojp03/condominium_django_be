@@ -15,6 +15,10 @@ from modules.ad.controllers import residente_foto_controller
 from modules.ad.controllers import vehiculo_controller
 from modules.ad.controllers import vehiculo_foto_controller
 from modules.ad.controllers import aviso_controller
+from modules.ad.controllers import area_comun_controller
+from modules.ad.controllers import reserva_area_controller
+from modules.ad.controllers import tarea_mantenimiento_controller
+from modules.ad.controllers import mantenimiento_preventivo_controller
 
 
 urlpatterns = [
@@ -86,5 +90,30 @@ urlpatterns = [
     path('avisos/crear/', aviso_controller.aviso_crear),
     path('avisos/<int:idaviso>/actualizar/', aviso_controller.aviso_actualizar),
     path('avisos/<int:idaviso>/eliminar/', aviso_controller.aviso_eliminar),
+
+    path('areas-comunes/', area_comun_controller.area_comun_listar),
+    path('areas-comunes/<int:idarea>/', area_comun_controller.area_comun_detalle),
+    path('areas-comunes/crear/', area_comun_controller.area_comun_crear),
+    path('areas-comunes/<int:idarea>/actualizar/', area_comun_controller.area_comun_actualizar),
+    path('areas-comunes/<int:idarea>/eliminar/', area_comun_controller.area_comun_eliminar),
+
+
+    path('reservas-area/', reserva_area_controller.reserva_area_listar),
+    path('reservas-area/<int:idreserva>/', reserva_area_controller.reserva_area_detalle),
+    path('reservas-area/crear/', reserva_area_controller.reserva_area_crear),
+    path('reservas-area/<int:idreserva>/actualizar/', reserva_area_controller.reserva_area_actualizar),
+    path('reservas-area/<int:idreserva>/eliminar/', reserva_area_controller.reserva_area_eliminar),    
+
+    path('tareas-mantenimiento/', tarea_mantenimiento_controller.tarea_mantenimiento_listar),
+    path('tareas-mantenimiento/<int:idtarea>/', tarea_mantenimiento_controller.tarea_mantenimiento_detalle),
+    path('tareas-mantenimiento/crear/', tarea_mantenimiento_controller.tarea_mantenimiento_crear),
+    path('tareas-mantenimiento/<int:idtarea>/actualizar/', tarea_mantenimiento_controller.tarea_mantenimiento_actualizar),
+    path('tareas-mantenimiento/<int:idtarea>/eliminar/', tarea_mantenimiento_controller.tarea_mantenimiento_eliminar),
+
+    path('mantenimientos-preventivos/', mantenimiento_preventivo_controller.mantenimiento_preventivo_listar),
+    path('mantenimientos-preventivos/<int:idpreventivo>/', mantenimiento_preventivo_controller.mantenimiento_preventivo_detalle),
+    path('mantenimientos-preventivos/crear/', mantenimiento_preventivo_controller.mantenimiento_preventivo_crear),
+    path('mantenimientos-preventivos/<int:idpreventivo>/actualizar/', mantenimiento_preventivo_controller.mantenimiento_preventivo_actualizar),
+    path('mantenimientos-preventivos/<int:idpreventivo>/eliminar/', mantenimiento_preventivo_controller.mantenimiento_preventivo_eliminar),    
 
 ]

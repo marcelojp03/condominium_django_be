@@ -12,3 +12,7 @@ from .residente_foto_model import ResidenteFoto
 from .vehiculo_model import Vehiculo
 from .vehiculo_foto_model import VehiculoFoto
 from .aviso_model import Aviso
+from .area_comun_model import AreaComun
+from .reserva_area_model import ReservaArea
+from .tarea_mantenimiento_model import TareaMantenimiento
+from .mantenimiento_preventivo_model import MantenimientoPreventivo
