@@ -12,58 +12,99 @@ INSERT INTO public.ad_usuariorol( rol_id, usuario_id)VALUES( 2, 2);
 INSERT INTO public.ad_usuariorol( rol_id, usuario_id)VALUES( 3, 3);
 
 --opciones del menu del primer nivel
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Inicio', 'Home');
 INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Administracion', 'Menu raiz Administracion');
-INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Seguridad', 'Menu raiz Seguridad');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Comunicacion', 'Menu raiz Comunicacion');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Finanzas', 'Menu raiz Finanzas');
 INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Areas Comunes', 'Menu raiz Areas comunes');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Seguridad con IA', 'Menu raiz Seguridad');
 INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Mantenimiento', 'Menu raiz Mantenimiento');
+INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Configuracion', 'Menu raiz Configuracion');
+
+
+
+
 INSERT INTO public.ad_recurso(nombre, descripcion)VALUES('Reportes', 'Menu raiz Reportes');
 
+--opciones para el menu Home
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Dashboard', 'submenu 1 de Inicio', 'condominio-dashboard', 2);
 --opciones para el menu Administracion
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Usuarios', 'submenu 1 de Administracion', '/dashboard/usuarios', 1);
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Roles', 'submenu 2 de Administracion', '/dashboard/roles', 1);
---opciones para el menu Seguridad
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Camaras', 'submenu 1 de Seguridad', '/dashboard/camaras', 2);
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Visitantes', 'submenu 2 de Seguridad', '/dashboard/visitantes', 2);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Residentes', '', 'residentes', 2);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Vehiculos', '', 'vehiculos', 2);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Unidades', '', 'unidades', 2);
+
+--opciones para el menu Avisos
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Avisos', '', 'avisos', 3);
+
+
+--opciones para el menu Finanzas
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Conceptos', '', 'conceptos', 4);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Cuotas', '', 'cuotas', 4);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Pagos', '', 'pagos', 4);
+
 --opciones para el menu Areas comunes
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Reservas', 'submenu 1 de Areas comunes', '/dashboard/reservas', 3);
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Ingresos', 'submenu 2 de Areas comunes', '/dashboard/ingresos', 3);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Reservas', '', 'reservas', 5);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Areas', '', 'areas', 5);
+
+
+--opciones para el menu Seguridad IA
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Reconocimiento facial', '', 'reconocimientos', 6);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Visitantes detectados', '', 'visitantes_detectados', 6);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Placas detectadas', '', 'placas_detectadas', 6);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Alertas de seguridad', '', 'alertas', 6);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Eventos de ingreso/salida', '', 'eventos', 6);
+
 --opciones para el menu Mantenimiento
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Tareas', 'submenu 1 de Mantenimiento', '/dashboard/tareas', 4);
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Preventivos', 'submenu 2 de mantenimiento', '/dashboard/preventivos', 4);
---opciones para el menu Reportes
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Financieros', 'submenu 1 de reportes', '/dashboard/reportes/financieros', 5);
-INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Seguridad IA', 'submenu 2 de reportes', '/dashboard/reportes/seguridad', 5);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Tareas correctivas', '', 'tareas', 7);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Preventivo', '', 'preventivos', 7);
 
---Asignar el submenu Usuarios y roles al menu Administracion al usuario 1
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(1, 1, 1);
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(1, 1, 2);
-
---Asignar el submenu camaras y visitantes al menu Seguridad al usuario 1
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 1, 3);
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 1, 4);
-
---Asignar el submenu reservas y ingresos al menu Areas comunes al usuario 1
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 1, 5);
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 1, 6);
-
---Asignar el submenu tareas y preventivos al menu Mantenimiento al usuario 1
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(4, 1, 7);
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(4, 1, 8);
-
---Asignar el submenu financieros y seguridad al menu Reportes al usuario 1
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 1, 9);
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 1, 10);
+--opciones para el menu Configuracion
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Usuarios', '', 'usuarios', 8);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Roles', '', 'roles', 8);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Recursos', '', 'recursos', 8);
+INSERT INTO public.ad_subrecurso( nombre, descripcion, url, recurso_id)VALUES('Schedulers', '', 'schedulers', 8);
 
 
--- Usuario 2 tiene el rol residente
---Rol Residente solo tiene acceso al menu Areas Comunes
---Asignar el submenu reservas y ingresos del menu Areas comunes al usuario 2
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 2, 5);
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 2, 6);
+--Asignar todos los recursos al rol 1 Administrador
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(1, 1, 1);--Home
+
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 1, 2);--Residentes
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 1, 3);--Vehiculos
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 1, 4);--Unidades
+
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(3, 1, 5);--avisos
 
 
--- Usuario 3 tiene el rol seguridad
---Rol Seguridad solo tiene acceso al menu Seguridad
---Asignar el submenu camaras y visitantes del menu Seguridad al usuario 3
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 3, 3);
-INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(2, 3, 4);
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(4, 1, 6);--conceptos
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(4, 1, 7);--cuotas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(4, 1, 8);--pagos
+
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 1, 9);--reservas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 1, 10);--areas
+
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 1, 11);--reconocimiento
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 1, 12);--visitantes
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 1, 13);--placas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 1, 14);--alertas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 1, 15);--eventos
+
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(7, 1, 16);--reservas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(7, 1, 17);--areas
+
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(8, 1, 18);--usuarios
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(8, 1, 19);--roles
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(8, 1, 20);--recursos
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(8, 1, 21);--schedulers
+
+
+
+--Asignar todos los recursos al rol 2 Residente
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 2, 9);--reservas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(5, 2, 10);--areas
+
+--Asignar todos los recursos al rol 3 Seguridad
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 3, 11);--reconocimiento
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 3, 12);--visitantes
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 3, 13);--placas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 3, 14);--alertas
+INSERT INTO public.ad_rolrecurso(recurso_id, rol_id, subrecurso_id)VALUES(6, 3, 15);--eventos
