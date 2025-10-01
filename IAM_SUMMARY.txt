@@ -1,0 +1,209 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║        🔐 CONFIGURACIÓN DE PERMISOS IAM PARA AWS ACTUALIZADA 🔐               ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+✅ ARCHIVOS ACTUALIZADOS:
+
+🔐 IAM & Seguridad:
+   ├─ setup-iam.ps1                 → Script automático para crear rol y política
+   ├─ IAM_SETUP_GUIDE.md           → Guía completa de configuración IAM
+   └─ .env.example                  → Actualizado (NO usar AWS_ACCESS_KEY_ID)
+
+🔧 Scripts actualizados:
+   ├─ create-apprunner-service.ps1 → Ahora incluye rol IAM automáticamente
+   └─ STEP_BY_STEP.md              → Actualizado con paso de IAM
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 TU APLICACIÓN USA LOS SIGUIENTES SERVICIOS AWS:
+
+✅ Amazon Rekognition:
+   • DetectFaces - Reconocimiento facial
+   • IndexFaces - Indexar caras en colección
+   • SearchFacesByImage - Buscar rostros conocidos
+   • DetectText - Detectar texto en placas de vehículos
+   • DetectCustomLabels - Comportamiento sospechoso
+   • Proyecto: ComportamientoSospechoso
+
+✅ Amazon S3:
+   • GetObject - Leer imágenes
+   • PutObject - Guardar imágenes
+   • DeleteObject - Eliminar imágenes
+   • ListBucket - Listar contenido
+
+✅ Amazon Textract:
+   • DetectDocumentText - OCR de documentos
+   • AnalyzeDocument - Análisis de documentos
+   • AnalyzeID - Análisis de identificaciones
+
+✅ Amazon ECR:
+   • Pull de imágenes Docker
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 PROCESO ACTUALIZADO (AHORA CON IAM):
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PASO 1: Configurar IAM (NUEVO - REQUERIDO)                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+   Ejecuta el script automático:
+   > .\setup-iam.ps1
+
+   Esto creará:
+   ✅ Política: CondominiumBackendPolicy
+   ✅ Rol: CondominiumAppRunnerTaskRole
+   ✅ Permisos: Rekognition + S3 + Textract + ECR
+
+   ⚠️ IMPORTANTE: NO configures AWS_ACCESS_KEY_ID en variables de entorno
+   El rol IAM proveerá las credenciales automáticamente y es más seguro.
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PASO 2: Subir imagen a ECR                                                  │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+   > .\deploy-to-ecr.ps1
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ PASO 3: Crear servicio en App Runner                                        │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+   > .\create-apprunner-service.ps1
+
+   El script ahora:
+   ✅ Verifica que el rol IAM existe
+   ✅ Asigna el rol automáticamente al servicio
+   ✅ Configura AWS_DEFAULT_REGION
+   ✅ NO configura AWS_ACCESS_KEY_ID (usa el rol)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔐 SEGURIDAD - MEJORES PRÁCTICAS:
+
+✅ HACER:
+   • Usar roles IAM (más seguro que access keys)
+   • Configurar AWS_DEFAULT_REGION
+   • Limitar permisos S3 a buckets específicos (opcional)
+   • Revisar logs de CloudWatch
+   • Rotar credenciales de RDS regularmente
+
+❌ NO HACER:
+   • NO configurar AWS_ACCESS_KEY_ID en variables de entorno
+   • NO configurar AWS_SECRET_ACCESS_KEY en variables de entorno
+   • NO hacer commit de credenciales en Git
+   • NO usar permisos * en producción (solo para desarrollo)
+   • NO dejar DEBUG=True en producción
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🧪 VERIFICAR QUE TODO FUNCIONA:
+
+Después del despliegue, prueba estos endpoints:
+
+1. Health Check:
+   curl https://tu-app.awsapprunner.com/health/
+   ✅ Debe responder: {"status": "healthy"}
+
+2. Swagger UI:
+   https://tu-app.awsapprunner.com/api/docs/
+   ✅ Debe mostrar la documentación
+
+3. Probar reconocimiento facial:
+   POST https://tu-app.awsapprunner.com/api/ai/faces/search
+   ✅ Si falla con "Access Denied", verifica el rol IAM
+
+4. Revisar logs:
+   Ve a CloudWatch → Log Groups → /aws/apprunner/...
+   ✅ NO debe haber errores de credenciales
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💰 COSTOS ADICIONALES CON ESTOS SERVICIOS:
+
+Además del costo de App Runner (~$56/mes):
+
+📊 Amazon Rekognition:
+   • DetectFaces: $0.001 por imagen
+   • IndexFaces: $0.001 por imagen
+   • SearchFaces: $0.001 por búsqueda
+   • DetectText: $0.001 por imagen
+   • Custom Labels: $4/hora modelo activo + $0.01 por imagen
+   Ejemplo: 10,000 imágenes/mes ≈ $10
+
+📦 Amazon S3:
+   • Almacenamiento: $0.023 por GB/mes
+   • PUT/POST: $0.005 por 1,000 requests
+   • GET: $0.0004 por 1,000 requests
+   Ejemplo: 10GB + 50,000 requests ≈ $0.50/mes
+
+📄 Amazon Textract:
+   • DetectDocumentText: $1.50 por 1,000 páginas
+   • AnalyzeDocument: $50 por 1,000 páginas
+   Ejemplo: 1,000 páginas/mes ≈ $1.50
+
+💾 Amazon RDS PostgreSQL:
+   • Según tu instancia actual
+   • db.t3.micro: ~$15/mes
+   • db.t3.small: ~$30/mes
+
+🔄 Transfer de datos:
+   • Primeros 100GB/mes: GRATIS
+   • Después: $0.09 por GB
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 DOCUMENTACIÓN DE REFERENCIA:
+
+• IAM_SETUP_GUIDE.md     - Guía completa de IAM (manual)
+• STEP_BY_STEP.md        - Proceso completo actualizado
+• setup-iam.ps1          - Script automático de IAM
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🆘 TROUBLESHOOTING IAM:
+
+❌ Error: "Access Denied" en Rekognition
+   ➜ Verifica: aws iam get-role --role-name CondominiumAppRunnerTaskRole
+   ➜ Verifica: El rol está asignado en App Runner
+   ➜ Solución: .\setup-iam.ps1
+
+❌ Error: "Credentials not found"
+   ➜ Causa: Variables AWS_ACCESS_KEY_ID configuradas
+   ➜ Solución: Elimina esas variables de App Runner
+
+❌ Error: "Invalid bucket name"
+   ➜ Verifica: El bucket S3 existe
+   ➜ Verifica: El rol tiene permisos s3:GetObject
+
+❌ Error: "Model not found" (Custom Labels)
+   ➜ Verifica: PROJECT_VERSION_ARN en rekognition_service.py
+   ➜ Verifica: El modelo está iniciado en Rekognition
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ CHECKLIST FINAL:
+
+- [ ] .\setup-iam.ps1 ejecutado exitosamente
+- [ ] Política CondominiumBackendPolicy creada
+- [ ] Rol CondominiumAppRunnerTaskRole creado
+- [ ] .\deploy-to-ecr.ps1 ejecutado exitosamente
+- [ ] Imagen Docker en ECR
+- [ ] .\create-apprunner-service.ps1 ejecutado exitosamente
+- [ ] Servicio App Runner creado
+- [ ] Rol IAM asignado al servicio
+- [ ] Variables de entorno configuradas (sin AWS_ACCESS_KEY_ID)
+- [ ] Health check responde 200 OK
+- [ ] Swagger UI accesible
+- [ ] Pruebas de Rekognition funcionan
+- [ ] Logs sin errores de permisos
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎉 ¡TODO LISTO! Tu backend está configurado con permisos seguros para AWS.
+
+Los servicios de IA (Rekognition, Textract) funcionarán automáticamente usando
+el rol IAM sin necesidad de credenciales hardcodeadas. 🚀
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

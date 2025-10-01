@@ -1,0 +1,239 @@
+╔════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                ║
+║            📝 GUÍA RÁPIDA - ACTUALIZACIÓN DE CAMBIOS                          ║
+║                                                                                ║
+╚════════════════════════════════════════════════════════════════════════════════╝
+
+## 🔄 FLUJO DE TRABAJO DIARIO
+
+Cuando hagas cambios en tu código Django:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ OPCIÓN 1: Script Automatizado (Recomendado) ⭐                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+```powershell
+.\update-apprunner-service.ps1
+```
+
+Este script hace TODO automáticamente:
+  ✅ Construye nueva imagen Docker
+  ✅ Sube la imagen a ECR
+  ✅ Inicia despliegue en App Runner
+  ✅ Monitorea el progreso
+  ✅ Te muestra la URL cuando termina
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ OPCIÓN 2: Paso a Paso (Manual)                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+```powershell
+# 1. Construir y subir imagen
+.\deploy-to-ecr.ps1
+
+# 2. Desplegar en App Runner
+aws apprunner start-deployment `
+  --service-arn arn:aws:apprunner:us-east-1:851725478821:service/si2-condominium-prod/7e554faed3424ab4b5f00af4b540db3c `
+  --region us-east-1
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## ⏱️ TIEMPOS ESTIMADOS
+
+```
+Paso 1: Build imagen Docker      → 2-5 minutos
+Paso 2: Push a ECR                → 1-2 minutos
+Paso 3: Deploy en App Runner      → 2-5 minutos
+────────────────────────────────────────────
+TOTAL:                             5-12 minutos
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 📊 INFORMACIÓN DE TU SERVICIO
+
+**Nombre:**     si2-condominium-prod
+**Región:**     us-east-1
+**Account ID:** 851725478821
+
+**Service ARN:**
+```
+arn:aws:apprunner:us-east-1:851725478821:service/si2-condominium-prod/7e554faed3424ab4b5f00af4b540db3c
+```
+
+**Repositorio ECR:**
+```
+851725478821.dkr.ecr.us-east-1.amazonaws.com/si2-condominium-be
+```
+
+**Rol IAM:**
+```
+vpay-smartdoc-apprunner-instance-role
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🎯 COMANDOS ÚTILES
+
+### Ver estado del servicio:
+```powershell
+aws apprunner describe-service `
+  --service-arn arn:aws:apprunner:us-east-1:851725478821:service/si2-condominium-prod/7e554faed3424ab4b5f00af4b540db3c `
+  --region us-east-1 `
+  --query 'Service.Status'
+```
+
+### Ver URL del servicio:
+```powershell
+aws apprunner describe-service `
+  --service-arn arn:aws:apprunner:us-east-1:851725478821:service/si2-condominium-prod/7e554faed3424ab4b5f00af4b540db3c `
+  --region us-east-1 `
+  --query 'Service.ServiceUrl' `
+  --output text
+```
+
+### Ver logs:
+```powershell
+aws logs tail /aws/apprunner/si2-condominium-prod/service --follow --region us-east-1
+```
+
+### Pausar servicio (ahorrar costos):
+```powershell
+aws apprunner pause-service `
+  --service-arn arn:aws:apprunner:us-east-1:851725478821:service/si2-condominium-prod/7e554faed3424ab4b5f00af4b540db3c `
+  --region us-east-1
+```
+
+### Reanudar servicio:
+```powershell
+aws apprunner resume-service `
+  --service-arn arn:aws:apprunner:us-east-1:851725478821:service/si2-condominium-prod/7e554faed3424ab4b5f00af4b540db3c `
+  --region us-east-1
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🔍 VERIFICAR DESPLIEGUE
+
+Después de actualizar, verifica que todo funcione:
+
+```powershell
+# 1. Health check
+curl https://TU-URL.us-east-1.awsapprunner.com/health/
+
+# 2. Swagger UI
+# Abre en navegador: https://TU-URL.us-east-1.awsapprunner.com/api/docs/
+
+# 3. Admin panel
+# Abre en navegador: https://TU-URL.us-east-1.awsapprunner.com/admin/
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🐛 TROUBLESHOOTING
+
+### Problema: "Build failed"
+➜ Verifica errores en el Dockerfile
+➜ Asegúrate de que requirements.txt esté actualizado
+➜ Prueba build local: `docker build -t test .`
+
+### Problema: "Push to ECR failed"
+➜ Verifica credenciales AWS: `aws sts get-caller-identity`
+➜ Verifica permisos ECR
+➜ Re-autentica: `aws ecr get-login-password ...`
+
+### Problema: "Deployment stuck"
+➜ Revisa logs en CloudWatch
+➜ Verifica health check endpoint: `/health/`
+➜ Verifica variables de entorno en App Runner
+
+### Problema: "Service failing to start"
+➜ Revisa logs: `aws logs tail /aws/apprunner/...`
+➜ Verifica que el puerto sea 8000
+➜ Verifica conexión a base de datos
+➜ Verifica rol IAM asignado
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 📝 BUENAS PRÁCTICAS
+
+### ✅ HACER:
+1. Probar cambios localmente antes de desplegar
+2. Usar tags de versión: `.\deploy-to-ecr.ps1 -ImageTag "v1.0.2"`
+3. Revisar logs después de cada despliegue
+4. Hacer backup de la base de datos antes de cambios grandes
+5. Usar el script automatizado `update-apprunner-service.ps1`
+
+### ❌ NO HACER:
+1. Desplegar código sin probar
+2. Hacer cambios directamente en producción
+3. Olvidar actualizar requirements.txt
+4. Ignorar errores en los logs
+5. Desplegar con DEBUG=True
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 🎬 EJEMPLO DE FLUJO COMPLETO
+
+```powershell
+# 1. Hacer cambios en el código
+# ... editas archivos Python ...
+
+# 2. Probar localmente
+.\env\Scripts\Activate.ps1
+cd be_condominium
+python manage.py runserver
+# Probar en: http://localhost:8000
+
+# 3. Si todo funciona, desplegar
+cd ..
+.\update-apprunner-service.ps1
+
+# 4. Esperar 5-10 minutos
+
+# 5. Verificar
+curl https://TU-URL.awsapprunner.com/health/
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 💰 GESTIÓN DE COSTOS
+
+### Pausar servicio cuando no lo uses:
+```powershell
+# Pausar (solo pagas por storage de imagen ECR)
+aws apprunner pause-service --service-arn TU_ARN --region us-east-1
+
+# Reanudar (toma ~2 minutos)
+aws apprunner resume-service --service-arn TU_ARN --region us-east-1
+```
+
+### Eliminar servicio (si ya no lo necesitas):
+```powershell
+aws apprunner delete-service --service-arn TU_ARN --region us-east-1
+```
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## 📚 ARCHIVOS DE REFERENCIA
+
+- `update-apprunner-service.ps1` - Script de actualización (USA ESTE)
+- `deploy-to-ecr.ps1`            - Solo construir y subir imagen
+- `create-apprunner-service.ps1` - Crear servicio (ya ejecutado)
+- `verify-iam-role.ps1`          - Verificar permisos
+- `STEP_BY_STEP.md`              - Guía completa de despliegue
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+## ✅ RESUMEN
+
+**Para actualizar tu aplicación:**
+
+```powershell
+.\update-apprunner-service.ps1
+```
+
+**Eso es todo.** El script hace el resto. ✨
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
