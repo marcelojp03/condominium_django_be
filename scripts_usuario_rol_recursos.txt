@@ -1,4 +1,14 @@
 
+usuario rol administrador:
+    correo:admin@gmail.com
+    clave:admin
+usuario rol residente:
+    correo:residente@gmail.com
+    clave:admin
+usuario rol seguridad:
+    correo:seguridad@gmail.com
+    clave:admin
+
 
 
 
