@@ -12,6 +12,10 @@ def index_face_s3(bucket, image_key, resident_id):
     return response
 
 def search_face(image_bytes):
+
+    response_aux = rekognition.list_faces(CollectionId='residentes-condominio')
+    print("response-aux:" + str(response_aux))
+
     response = rekognition.search_faces_by_image(
         CollectionId='residentes-condominio',
         Image={'Bytes': image_bytes},
