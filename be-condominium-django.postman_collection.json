@@ -1,0 +1,1474 @@
+{
+	"info": {
+		"_postman_id": "7e65e47a-6a0d-4c32-8969-01203a9c7541",
+		"name": "be-condominium-django",
+		"description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48547950",
+		"_collection_link": "https://desarrollo-vpay-4722674.postman.co/workspace/Marcelo-Jim%C3%A9nez's-Workspace~0f3c0eb6-8963-40ce-86cc-c650390afc86/collection/48547950-7e65e47a-6a0d-4c32-8969-01203a9c7541?action=share&source=collection_link&creator=48547950"
+	},
+	"item": [
+		{
+			"name": "cn-contabilidad",
+			"item": [
+				{
+					"name": "tipos-concepto",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/cn/tipos-concepto/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/tipos-concepto/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"tipos-concepto",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/cn/tipos-concepto/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"EXPENSA\",\r\n  \"descripcion\": \"Pago mensual por mantenimiento y servicios comunes\",\r\n  \"estado\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/tipos-concepto/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"tipos-concepto",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "unidad-conceptos",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/cn/unidad-conceptos/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/unidad-conceptos/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"unidad-conceptos",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/cn/unidad-conceptos/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"unidad\": 1,\r\n  \"concepto\": 1,\r\n  \"monto_personalizado\": 280.00,\r\n  \"estado\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/unidad-conceptos/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"unidad-conceptos",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "formas-pago",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/cn/formas-pago/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/formas-pago/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"formas-pago",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/cn/formas-pago/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"EFECTIVO\",\r\n  \"descripcion\": \"Pago en efectivo\",\r\n  \"estado\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/formas-pago/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"formas-pago",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cuotas",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/cn/cuotas/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/cuotas/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"cuotas",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/cn/cuotas/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"unidad\": 1,\r\n  \"concepto\": 1,\r\n  \"periodo\": \"2025-10\",\r\n  \"monto\": 350.00,\r\n  \"estado_pago\": \"PAGADO\",\r\n  \"forma_pago\": 1,\r\n  \"observaciones\": \"Generada automáticamente para el mes de octubre\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/cn/cuotas/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"cn",
+										"cuotas",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ad-administracion",
+			"item": [
+				{
+					"name": "usuarios-roles",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/usuarios/1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/usuarios/6",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"usuarios",
+										"6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/usuarios/3/actualizar/",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"nombre\": \"SEGURIDAD2\",\r\n        \"correo\": \"seguridad2@gmail.com\",\r\n        \"password\": \"admin\",\r\n        \"_foto\": null,\r\n        \"estado\": false,\r\n        \"rol_id\": 3\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/usuarios/5/actualizar/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"usuarios",
+										"5",
+										"actualizar",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/usuarios/3",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/usuarios/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"usuarios",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/roles",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/roles",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"roles"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/auth/login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"correo\": \"admin@gmail.com\",\r\n  \"password\": \"admin\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/auth/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/usuarios/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"nombre\": \"admin3\",\r\n        \"correo\": \"admin3@gmail.com\",\r\n        \"password\": \"admin\",\r\n        \"foto\": null,\r\n        \"estado\": false,\r\n        \"rol_id\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/usuarios/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"usuarios",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/roles/recursos/3",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/roles/recursos/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"roles",
+										"recursos",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/roles/3",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/roles/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"roles",
+										"3"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get data",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/usuarios/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"usuarios",
+										""
+									]
+								},
+								"description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/menu/1",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/menu/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"menu",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "recursos",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/recursos",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/recursos",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"recursos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "unidades",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/unidades/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/unidades/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"unidades",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/unidades/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"codigo\": \"B-202\",\r\n  \"zona\": 2,\r\n  \"usuario_alta\": 1,\r\n  \"estado\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/unidades/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"unidades",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "zonas",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/zonas/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/zonas/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"zonas",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/zonas/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"nombre\": \"BLOQUE C\",\r\n        \"descripcion\": \"BLOQUE C ZONA ESTE\",\r\n        \"estado\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/zonas/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"zonas",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "tipos-documento",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/tipos-documento/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/tipos-documento/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"tipos-documento",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/tipos-documento/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"PASAPORTE\",\r\n  \"descripcion\": \"PASAPORTE\",\r\n  \"estado\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/tipos-documento/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"tipos-documento",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "residentes",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/residentes/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/residentes/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"residentes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/residentes/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"unidad\": 1,\r\n  \"usuario_alta\": 2,\r\n  \"nombres\": \"Maria\",\r\n  \"apellido1\": \"Pérez\",\r\n  \"apellido2\": \"Gómez\",\r\n  \"tipo_documento\": 1,\r\n  \"numero_documento\": \"12345678\",\r\n  \"extension_documento\": \"SC\",\r\n  \"correo_electronico\": \"maria@gmail.com\",\r\n  \"relacion\": \"PROPIETARIO\",\r\n  \"estado\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/residentes/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"residentes",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "vehiculos",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/vehiculos/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/vehiculos/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"vehiculos",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/vehiculos/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"unidad\": 1,\r\n  \"marca\": \"Toyota\",\r\n  \"modelo\": \"Sprinter\",\r\n  \"color\": \"Plomo\",\r\n  \"placa\": \"2101ABC\",\r\n  \"estado\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/vehiculos/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"vehiculos",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "avisos",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/avisos/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/avisos/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"avisos",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/avisos/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"usuario_alta\": 2,\r\n  \"titulo\": \"Corte de agua programado\",\r\n  \"contenido\": \"Se informa que el día jueves habrá corte de agua por mantenimiento.\",\r\n  \"fecha_publicacion\": \"2025-09-30\",\r\n  \"estado\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/avisos/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"avisos",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "areas-comunes",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/areas-comunes/",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/areas-comunes/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"areas-comunes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/areas-comunes/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"nombre\": \"Salón de Eventos Chico\",\r\n  \"descripcion\": \"Espacio para reuniones y celebraciones\",\r\n  \"capacidad\": 50,\r\n  \"horario_inicio\": \"08:00\",\r\n  \"horario_fin\": \"23:00\",\r\n  \"estado\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/areas-comunes/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"areas-comunes",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "reservas-area",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/reservas-area/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/reservas-area/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"reservas-area",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/reservas-area/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"unidad\": 1,\r\n  \"area\": 2,\r\n  \"usuario_reserva\": 3,\r\n  \"fecha_reserva\": \"2025-10-05\",\r\n  \"hora_inicio\": \"18:00\",\r\n  \"hora_fin\": \"21:00\",\r\n  \"motivo\": \"Cumpleaños familiar\",\r\n  \"estado\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/reservas-area/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"reservas-area",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "tareas-mantenimiento",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/tareas-mantenimiento/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/tareas-mantenimiento/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"tareas-mantenimiento",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/tareas-mantenimiento/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"descripcion\": \"Revisión de sistema eléctrico del bloque A\",\r\n  \"responsable\": \"ElectroSoluciones SRL\",\r\n  \"tipo\": \"EXTERNO\",\r\n  \"fecha_programada\": \"2025-10-10\",\r\n  \"fecha_ejecucion\": null,\r\n  \"estado\": \"PENDIENTE\",\r\n  \"costo\": 1200.00,\r\n  \"observaciones\": \"Solicitado por administración\",\r\n  \"usuario_alta\": 2\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/tareas-mantenimiento/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"tareas-mantenimiento",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "mantenimientos-preventivos",
+					"item": [
+						{
+							"name": "http://127.0.0.1:8000/ad/mantenimientos-preventivos/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/mantenimientos-preventivos/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"mantenimientos-preventivos",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "http://127.0.0.1:8000/ad/mantenimientos-preventivos/crear/",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"area\": 2,\r\n  \"frecuencia\": \"MENSUAL\",\r\n  \"ultima_fecha\": \"2025-09-01\",\r\n  \"estado\": true,\r\n  \"observaciones\": \"Revisión mensual de limpieza y ventilación\",\r\n  \"usuario_alta\": 3\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/ad/mantenimientos-preventivos/crear/",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"ad",
+										"mantenimientos-preventivos",
+										"crear",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ia-aws",
+			"item": [
+				{
+					"name": "http://127.0.0.1:8000/api/ai/escanear-comportamiento/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "/C:/fotos/comportamiento_sospechoso/perro_suelto/test/images1.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/ai/escanear-comportamiento/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"ai",
+								"escanear-comportamiento",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://127.0.0.1:8000/api/ai/escanear-placa/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/fotos/auto2.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/ai/escanear-placa/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"ai",
+								"escanear-placa",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://127.0.0.1:8000/api/ai/escanear-rostro/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/fotos/verstapen.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/ai/escanear-rostro/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"ai",
+								"escanear-rostro",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://127.0.0.1:8000/api/ai/registrar-rostro/",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"resident_id\": 2,\r\n  \"image_key\": \"faces/montoya.jpg\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/ai/registrar-rostro/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"ai",
+								"registrar-rostro",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
