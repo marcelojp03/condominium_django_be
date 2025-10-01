@@ -4,7 +4,8 @@ class UnidadRepository:
 
     @staticmethod
     def listar():
-        return Unidad.objects.filter(estado=True).order_by('codigo')
+        #return Unidad.objects.filter(estado=True).order_by('codigo')
+        return Unidad.objects.all().order_by('codigo')
 
     @staticmethod
     def obtener_por_id(idunidad):

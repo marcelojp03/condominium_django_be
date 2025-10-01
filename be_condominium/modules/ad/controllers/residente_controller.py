@@ -22,8 +22,9 @@ def residente_detalle(request, idresidente):
 def residente_crear(request):
     serializer = ResidenteSerializer(data=request.data)
     if serializer.is_valid():
-        ResidenteService.crear_residente(serializer.validated_data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        residente = ResidenteService.crear_residente(serializer.validated_data)
+        response_serializer = ResidenteSerializer(residente)
+        return Response(response_serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
