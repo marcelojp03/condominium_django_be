@@ -89,16 +89,28 @@ WSGI_APPLICATION = 'be_condominium.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME':  'bdcondominio',
+#         'USER':  'postgres',
+#         'PASSWORD': 'admin',
+#         'HOST': 'localhost',
+#         'PORT': '5433',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':  'bdcondominio',
+        'NAME':  'vpayDB',
         'USER':  'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5433',
+        'PASSWORD': 'postgres',
+        'HOST': 'dbvpay.cfiek6gqkqd5.us-east-1.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation
