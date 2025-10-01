@@ -1,4 +1,5 @@
 from modules.cn.repositories.unidad_concepto_repository import UnidadConceptoRepository
+from modules.cn.models import UnidadConcepto
 
 class UnidadConceptoService:
 
@@ -21,3 +22,7 @@ class UnidadConceptoService:
     @staticmethod
     def eliminar_asignacion(id):
         return UnidadConceptoRepository.eliminar(id)
+
+    @staticmethod
+    def listar_por_unidad(idunidad):
+        return UnidadConcepto.objects.filter(unidad_id=idunidad).select_related('unidad', 'concepto')

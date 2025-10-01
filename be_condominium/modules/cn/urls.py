@@ -24,6 +24,7 @@ urlpatterns = [
     path('unidad-conceptos/crear/', unidad_concepto_controller.unidad_concepto_crear),
     path('unidad-conceptos/<int:id>/actualizar/', unidad_concepto_controller.unidad_concepto_actualizar),
     path('unidad-conceptos/<int:id>/eliminar/', unidad_concepto_controller.unidad_concepto_eliminar),
+    path('unidad-conceptos/unidad/<int:idunidad>/', unidad_concepto_controller.unidad_concepto_por_unidad),
 
     path('formas-pago/', forma_pago_controller.forma_pago_listar),
     path('formas-pago/<int:idformapago>/', forma_pago_controller.forma_pago_detalle),

@@ -38,3 +38,21 @@ def unidad_concepto_actualizar(request, id):
 def unidad_concepto_eliminar(request, id):
     UnidadConceptoService.eliminar_asignacion(id)
     return Response({'mensaje': 'Asignación desactivada'}, status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET'])
+def unidad_concepto_por_unidad(request, idunidad):
+    asignaciones = UnidadConceptoService.listar_por_unidad(idunidad)
+
+    vigentes = [a for a in asignaciones if a.estado is True]
+    pagadas = [a for a in asignaciones if a.estado is False]
+
+    serializer_vigentes = UnidadConceptoSerializer(vigentes, many=True)
+    serializer_pagadas = UnidadConceptoSerializer(pagadas, many=True)
+
+    return Response({
+        "codigo_unidad": vigentes[0].unidad.codigo if vigentes else pagadas[0].unidad.codigo if pagadas else None,
+        "vigentes": serializer_vigentes.data,
+        "pagadas": serializer_pagadas.data
+    })
+
