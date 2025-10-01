@@ -105,13 +105,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME':  'vpayDB',
         'USER':  'postgres',
-<<<<<<< HEAD
-        'PASSWORD': 'admin123*',
-        'HOST': 'localhost',
-=======
         'PASSWORD': 'postgres',
         'HOST': 'dbvpay.cfiek6gqkqd5.us-east-1.rds.amazonaws.com',
->>>>>>> f1cdf50c11cad9fae0da7f7d8fcc5859f0b1a5aa
         'PORT': '5432',
     }
 }
