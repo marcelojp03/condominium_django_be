@@ -7,6 +7,7 @@ class ResidenteFoto(models.Model):
     url_imagen = models.TextField()
     fecha_registro = models.DateTimeField(auto_now_add=True)
     tipo = models.CharField(max_length=20, null=True, blank=True)  # 'ENTRENAMIENTO', 'VERIFICACION'
+    rekognition_face_id = models.CharField(max_length=100, null=True, blank=True)  # FaceId en Rekognition
     estado = models.BooleanField(default=True)
 
     class Meta:

@@ -21,3 +21,7 @@ class ResidenteFotoRepository:
     @staticmethod
     def eliminar(idfoto):
         ResidenteFoto.objects.filter(idfoto=idfoto).update(estado=False)
+
+    @staticmethod
+    def obtener_por_face_id(face_id):
+        return ResidenteFoto.objects.filter(rekognition_face_id=face_id, estado=True).first()
