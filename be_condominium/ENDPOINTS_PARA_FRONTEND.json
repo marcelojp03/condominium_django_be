@@ -1,0 +1,558 @@
+{
+  "api_base_url": "https://si2-condominium-prod.us-east-1.awsapprunner.com",
+  "api_base_url_local": "http://localhost:8000",
+  "version": "2.0.0",
+  "ultima_actualizacion": "2025-10-01",
+  "status": "COMPLETO - FASES 1, 2 Y 3 IMPLEMENTADAS",
+  
+  "autenticacion": {
+    "tipo": "JWT Bearer Token",
+    "header": "Authorization: Bearer {token}",
+    "endpoints": {
+      "login": {
+        "method": "POST",
+        "url": "/ad/auth/login",
+        "descripcion": "Login para residentes y guardias",
+        "body": {
+          "correo": "string (required)",
+          "password": "string (required)"
+        },
+        "respuesta_exitosa": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "token": "jwt_token_string",
+          "usuario_id": "number",
+          "perfil": "RESIDENTE | GUARDIA | ADMIN"
+        },
+        "ejemplo_body": {
+          "correo": "residente@email.com",
+          "password": "password123"
+        },
+        "status": "✅ LISTO"
+      },
+      "perfil": {
+        "method": "GET",
+        "url": "/ad/usuarios/{usuario_id}/",
+        "descripcion": "Obtener datos del usuario logueado",
+        "headers": {
+          "Authorization": "Bearer {token}"
+        },
+        "respuesta": {
+          "id": "number",
+          "nombre": "string",
+          "correo": "string",
+          "foto": "string (url)",
+          "roles": ["array de strings"]
+        },
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "residentes_pagos": {
+    "descripcion": "Endpoints para gestión de pagos de residentes",
+    "endpoints": {
+      "listar_cuotas": {
+        "method": "GET",
+        "url": "/cn/cuotas/",
+        "descripcion": "Lista cuotas del residente (pendientes/pagadas)",
+        "query_params": {
+          "residente_id": "number (required) - ID del residente",
+          "estado": "string (optional) - PENDIENTE | PAGADO | VENCIDO",
+          "fecha_desde": "string (optional) - YYYY-MM formato",
+          "fecha_hasta": "string (optional) - YYYY-MM formato"
+        },
+        "ejemplo_url": "/cn/cuotas/?residente_id=1&estado=PENDIENTE",
+        "respuesta": [
+          {
+            "idcuota": "number",
+            "concepto": "string",
+            "periodo": "string (YYYY-MM)",
+            "monto": "decimal",
+            "fecha_vencimiento": "datetime",
+            "estado_pago": "string",
+            "unidad": "object"
+          }
+        ],
+        "uso_app": "Pantalla principal: Lista de cuotas pendientes",
+        "status": "✅✅ IMPLEMENTADO HOY - CRÍTICO"
+      },
+      "pagar_cuota": {
+        "method": "POST",
+        "url": "/cn/cuotas/{cuota_id}/pagar/",
+        "descripcion": "Registrar pago de una cuota",
+        "path_params": {
+          "cuota_id": "number (required) - ID de la cuota"
+        },
+        "body": {
+          "forma_pago_id": "number (required)",
+          "monto": "decimal (required)",
+          "comprobante": "string (optional) - URL o base64 de imagen"
+        },
+        "ejemplo_body": {
+          "forma_pago_id": 1,
+          "monto": 50.00,
+          "comprobante": "https://url-del-comprobante.jpg"
+        },
+        "respuesta_exitosa": {
+          "codigo": 0,
+          "mensaje": "Pago registrado exitosamente",
+          "cuota_id": "number",
+          "estado": "PAGADO",
+          "fecha_pago": "datetime"
+        },
+        "uso_app": "Botón PAGAR en detalle de cuota",
+        "status": "✅✅ IMPLEMENTADO HOY - CRÍTICO"
+      },
+      "conceptos_precio": {
+        "method": "GET",
+        "url": "/cn/conceptos-precio/",
+        "descripcion": "Conceptos disponibles para pago",
+        "respuesta": [
+          {
+            "idconcepto": "number",
+            "nombre": "string",
+            "monto": "decimal",
+            "tipo": "string",
+            "vigente": "boolean"
+          }
+        ],
+        "uso_app": "Selector de concepto al crear pago",
+        "status": "✅ LISTO"
+      },
+      "formas_pago": {
+        "method": "GET",
+        "url": "/cn/formas-pago/",
+        "descripcion": "Métodos de pago disponibles",
+        "respuesta": [
+          {
+            "idformapago": "number",
+            "nombre": "string",
+            "descripcion": "string",
+            "activo": "boolean"
+          }
+        ],
+        "uso_app": "Selector de método de pago",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "residentes_servicios": {
+    "descripcion": "Reservas y servicios para residentes",
+    "endpoints": {
+      "listar_areas_comunes": {
+        "method": "GET",
+        "url": "/ad/areas-comunes/",
+        "descripcion": "Áreas disponibles para reserva",
+        "respuesta": [
+          {
+            "idarea": "number",
+            "nombre": "string",
+            "capacidad": "number",
+            "tarifa": "decimal",
+            "disponible": "boolean"
+          }
+        ],
+        "uso_app": "Lista de áreas para reservar",
+        "status": "✅ LISTO"
+      },
+      "listar_reservas": {
+        "method": "GET",
+        "url": "/ad/reservas-area/",
+        "descripcion": "Reservas del residente",
+        "query_params": {
+          "residente_id": "number (required) - ID del residente",
+          "estado": "string (optional) - CONFIRMADO | PENDIENTE | CANCELADO"
+        },
+        "ejemplo_url": "/ad/reservas-area/?residente_id=1",
+        "respuesta": [
+          {
+            "idreserva": "number",
+            "area": "object",
+            "fecha_reserva": "date",
+            "hora_inicio": "time",
+            "hora_fin": "time",
+            "estado_reserva": "string"
+          }
+        ],
+        "uso_app": "Pantalla MIS RESERVAS",
+        "status": "✅✅ IMPLEMENTADO HOY - CRÍTICO"
+      },
+      "crear_reserva": {
+        "method": "POST",
+        "url": "/ad/reservas-area/",
+        "descripcion": "Crear nueva reserva de área común",
+        "body": {
+          "area_id": "number (required)",
+          "residente_id": "number (required)",
+          "fecha_evento": "date (required) - YYYY-MM-DD",
+          "hora_inicio": "time (required) - HH:MM",
+          "hora_fin": "time (required) - HH:MM",
+          "observaciones": "string (optional)"
+        },
+        "ejemplo_body": {
+          "area_id": 1,
+          "residente_id": 1,
+          "fecha_evento": "2025-12-15",
+          "hora_inicio": "14:00",
+          "hora_fin": "18:00",
+          "observaciones": "Cumpleaños infantil"
+        },
+        "uso_app": "Botón NUEVA RESERVA",
+        "status": "✅ LISTO"
+      },
+      "listar_avisos": {
+        "method": "GET",
+        "url": "/ad/avisos/",
+        "descripcion": "Avisos y comunicados del condominio",
+        "query_params": {
+          "activos": "boolean (optional) - true para solo activos"
+        },
+        "respuesta": [
+          {
+            "idaviso": "number",
+            "titulo": "string",
+            "contenido": "string",
+            "fecha_publicacion": "datetime",
+            "vigente_hasta": "date"
+          }
+        ],
+        "uso_app": "Pantalla AVISOS/COMUNICADOS",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "guardias_monitoreo": {
+    "descripcion": "Endpoints para guardias - monitoreo y accesos",
+    "endpoints": {
+      "escanear_rostro": {
+        "method": "POST",
+        "url": "/api/ai/escanear-rostro/",
+        "descripcion": "Reconocimiento facial para control de acceso",
+        "content_type": "multipart/form-data",
+        "body": {
+          "image": "File (required) - Imagen JPG/PNG"
+        },
+        "respuesta_exitosa": {
+          "matched": "boolean",
+          "resident": "string",
+          "confidence": "number (0-100)",
+          "unidad": "string",
+          "face_id": "string"
+        },
+        "respuesta_no_reconocido": {
+          "matched": false,
+          "message": "Rostro no reconocido"
+        },
+        "uso_app": "Botón ESCANEAR ROSTRO en cámara",
+        "status": "✅ LISTO"
+      },
+      "escanear_placa": {
+        "method": "POST",
+        "url": "/api/ai/escanear-placa/",
+        "descripcion": "OCR de placas vehiculares",
+        "content_type": "multipart/form-data",
+        "body": {
+          "image": "File (required) - Imagen JPG/PNG"
+        },
+        "respuesta_exitosa": {
+          "placa_detectada": "string",
+          "confidence": "number (0-100)",
+          "vehiculo_registrado": "boolean",
+          "propietario": "string (si está registrado)",
+          "unidad": "string (si está registrado)"
+        },
+        "uso_app": "Botón ESCANEAR PLACA en cámara",
+        "status": "✅ LISTO"
+      },
+      "directorio_residentes": {
+        "method": "GET",
+        "url": "/ad/residentes/",
+        "descripcion": "Directorio de residentes para verificación",
+        "query_params": {
+          "activos": "boolean (optional) - true para solo activos"
+        },
+        "respuesta": [
+          {
+            "idresidente": "number",
+            "nombres": "string",
+            "apellidos": "string",
+            "unidad": "object",
+            "foto": "string (url)",
+            "telefono": "string"
+          }
+        ],
+        "uso_app": "Búsqueda de residentes",
+        "status": "✅ LISTO"
+      },
+      "directorio_vehiculos": {
+        "method": "GET",
+        "url": "/ad/vehiculos/",
+        "descripcion": "Directorio de vehículos registrados",
+        "respuesta": [
+          {
+            "idvehiculo": "number",
+            "placa": "string",
+            "marca": "string",
+            "modelo": "string",
+            "propietario": "object",
+            "unidad": "string"
+          }
+        ],
+        "uso_app": "Búsqueda de vehículos",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "endpoints_fase_2": {
+    "descripcion": "Endpoints FASE 2 - IMPLEMENTADOS HOY",
+    "prioridad": "MEDIA-ALTA",
+    "status": "✅ COMPLETADO",
+    "endpoints": {
+      "eventos_acceso": {
+        "method": "GET",
+        "url": "/api/ai/eventos-acceso/",
+        "descripcion": "Log completo de eventos de acceso (rostros y placas)",
+        "query_params": {
+          "fecha": "string (optional) - YYYY-MM-DD",
+          "tipo": "string (optional) - ROSTRO | PLACA",
+          "resultado": "string (optional) - PERMITIDO | DENEGADO",
+          "fecha_desde": "string (optional) - YYYY-MM-DD",
+          "fecha_hasta": "string (optional) - YYYY-MM-DD"
+        },
+        "ejemplo_url": "/api/ai/eventos-acceso/?fecha=2025-10-01&tipo=ROSTRO",
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "total": "number",
+          "eventos": [
+            {
+              "id": "number",
+              "timestamp": "string",
+              "tipo": "ROSTRO | PLACA",
+              "resultado": "PERMITIDO | DENEGADO",
+              "residente": "string",
+              "confidence": "number",
+              "imagen": "string (url)"
+            }
+          ]
+        },
+        "uso": "Historial completo para guardias",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "perfil_residente": {
+        "method": "GET",
+        "url": "/ad/residentes/mis-datos/{usuario_id}/",
+        "descripcion": "Perfil completo del residente con unidad y vehículos",
+        "path_params": {
+          "usuario_id": "number (required)"
+        },
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "perfil": {
+            "residente_id": "number",
+            "usuario_id": "number",
+            "nombres": "string",
+            "apellidos": "string",
+            "nombre_completo": "string",
+            "documento": "object",
+            "correo": "string",
+            "unidad": "object",
+            "relacion": "string",
+            "vehiculos": "array",
+            "fecha_registro": "string"
+          }
+        },
+        "uso": "Pantalla MI PERFIL detallada",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "registrar_evento_manual": {
+        "method": "POST",
+        "url": "/api/ai/registrar-evento-manual/",
+        "descripcion": "Registro manual de visitas por guardias",
+        "body": {
+          "tipo": "string (required) - VISITA | DELIVERY | MANTENIMIENTO",
+          "descripcion": "string (optional)",
+          "residente_id": "number (optional)",
+          "visitante_nombre": "string (optional)",
+          "documento": "string (optional)"
+        },
+        "ejemplo_body": {
+          "tipo": "VISITA",
+          "descripcion": "Visita familiar",
+          "residente_id": 1,
+          "visitante_nombre": "María García",
+          "documento": "12345678"
+        },
+        "uso": "Registro manual cuando no hay escaneo",
+        "status": "✅ IMPLEMENTADO HOY"
+      }
+    }
+  },
+
+  "endpoints_fase_3": {
+    "descripcion": "Endpoints FASE 3 - IMPLEMENTADOS HOY",
+    "prioridad": "BAJA-MEDIA",
+    "status": "✅ COMPLETADO",
+    "endpoints": {
+      "dashboard_residente": {
+        "method": "GET",
+        "url": "/ad/dashboard/residente/{residente_id}/",
+        "descripcion": "Dashboard con estadísticas del residente",
+        "path_params": {
+          "residente_id": "number (required)"
+        },
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "dashboard": {
+            "residente": "object",
+            "cuotas_pendientes": "number",
+            "monto_total_pendiente": "number",
+            "proxima_cuota_vence": "string",
+            "reservas_activas": "number",
+            "avisos_sin_leer": "number",
+            "estadisticas_6meses": "object"
+          }
+        },
+        "uso": "Pantalla principal con resumen",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "dashboard_guardia": {
+        "method": "GET",
+        "url": "/ad/dashboard/guardia/",
+        "descripcion": "Dashboard con estadísticas para guardias",
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "dashboard": {
+            "fecha": "string",
+            "accesos_hoy": "number",
+            "visitantes_permitidos": "number",
+            "intentos_denegados": "number",
+            "vehiculos_ingresados": "number",
+            "alertas_pendientes": "number",
+            "ultima_actividad": "string",
+            "resumen_turno": "object"
+          }
+        },
+        "uso": "Dashboard del turno",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "eventos_sospechosos": {
+        "method": "GET",
+        "url": "/api/ai/eventos-sospechosos/",
+        "descripcion": "Lista eventos sospechosos detectados por IA",
+        "query_params": {
+          "fecha_desde": "string (optional) - YYYY-MM-DD",
+          "atendido": "boolean (optional)"
+        },
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "total": "number",
+          "eventos": [
+            {
+              "id": "number",
+              "timestamp": "string",
+              "tipo_comportamiento": "string",
+              "confidence": "number",
+              "ubicacion": "string",
+              "imagen": "string (url)",
+              "atendido": "boolean",
+              "metadatos": "object"
+            }
+          ]
+        },
+        "uso": "Alertas de seguridad",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "atender_evento_sospechoso": {
+        "method": "PUT",
+        "url": "/api/ai/eventos-sospechosos/{id}/atender/",
+        "descripcion": "Marcar evento sospechoso como atendido",
+        "path_params": {
+          "id": "number (required)"
+        },
+        "body": {
+          "guardia_id": "number (required)",
+          "observaciones": "string (optional)"
+        },
+        "uso": "Resolver alertas",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "notificaciones_push": {
+        "method": "POST",
+        "url": "/ad/notificaciones/push/",
+        "descripcion": "Sistema de notificaciones push (simulado - integrar FCM/OneSignal)",
+        "body": {
+          "destinatarios": "array (required) - ['GUARDIAS', 'RESIDENTES', 'ADMIN']",
+          "titulo": "string (required)",
+          "mensaje": "string (required)",
+          "tipo": "string (optional) - URGENTE | INFO | ALERTA"
+        },
+        "ejemplo_body": {
+          "destinatarios": ["GUARDIAS", "RESIDENTES"],
+          "titulo": "Alerta de seguridad",
+          "mensaje": "Comportamiento sospechoso detectado",
+          "tipo": "URGENTE"
+        },
+        "nota": "Sistema simulado - Integrar con Firebase/OneSignal para producción",
+        "uso": "Enviar notificaciones masivas",
+        "status": "✅ IMPLEMENTADO HOY (simulado)"
+      },
+      "registrar_token": {
+        "method": "POST",
+        "url": "/ad/notificaciones/registrar-token/",
+        "descripcion": "Registrar token FCM del dispositivo móvil",
+        "body": {
+          "usuario_id": "number (required)",
+          "token": "string (required) - Token FCM",
+          "plataforma": "string (optional) - android | ios"
+        },
+        "uso": "Inicializar notificaciones en app",
+        "status": "✅ IMPLEMENTADO HOY"
+      }
+    }
+  },
+
+  "notas_implementacion": {
+    "backend_url_produccion": "https://si2-condominium-prod.us-east-1.awsapprunner.com",
+    "swagger_docs": "https://si2-condominium-prod.us-east-1.awsapprunner.com/api/docs/",
+    "manejo_errores": {
+      "401": "Token inválido o expirado - redirigir a login",
+      "403": "Sin permisos - mostrar mensaje",
+      "404": "Recurso no encontrado",
+      "500": "Error del servidor - reintentar"
+    },
+    "autenticacion": {
+      "guardar_token": "AsyncStorage/SecureStore en móvil",
+      "header": "Authorization: Bearer {token}",
+      "renovacion": "Implementar refresh token en FASE 2"
+    },
+    "imagenes": {
+      "escaneo_rostro": "Usar cámara nativa, enviar como multipart/form-data",
+      "comprobantes_pago": "Subir a S3 o enviar base64 en body",
+      "formato_recomendado": "JPEG, max 2MB"
+    },
+    "filtros_importantes": {
+      "cuotas": "SIEMPRE filtrar por residente_id",
+      "reservas": "SIEMPRE filtrar por residente_id",
+      "avisos": "Usar activos=true para solo vigentes"
+    }
+  },
+
+  "resumen_estado": {
+    "total_endpoints": 25,
+    "listos_fase_1": 18,
+    "implementados_fase_2": 3,
+    "implementados_fase_3": 4,
+    "backend_completo": true,
+    "fecha_completado": "2025-10-01",
+    "recomendacion": "Backend 100% completo. Todas las funcionalidades implementadas para app móvil completa."
+  }
+}

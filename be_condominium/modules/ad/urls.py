@@ -19,6 +19,10 @@ from modules.ad.controllers import area_comun_controller
 from modules.ad.controllers import reserva_area_controller
 from modules.ad.controllers import tarea_mantenimiento_controller
 from modules.ad.controllers import mantenimiento_preventivo_controller
+# 🟠🟢 NUEVOS CONTROLLERS FASE 2 y 3
+from modules.ad.controllers import residente_perfil_controller
+from modules.ad.controllers import dashboard_controller
+from modules.ad.controllers import notificaciones_controller
 
 
 urlpatterns = [
@@ -115,5 +119,16 @@ urlpatterns = [
     path('mantenimientos-preventivos/crear/', mantenimiento_preventivo_controller.mantenimiento_preventivo_crear),
     path('mantenimientos-preventivos/<int:idpreventivo>/actualizar/', mantenimiento_preventivo_controller.mantenimiento_preventivo_actualizar),
     path('mantenimientos-preventivos/<int:idpreventivo>/eliminar/', mantenimiento_preventivo_controller.mantenimiento_preventivo_eliminar),    
+
+    # 🟡 NUEVOS ENDPOINTS FASE 2 - IMPORTANTES
+    path('residentes/mis-datos/<int:usuario_id>/', residente_perfil_controller.residente_mis_datos),
+    
+    # 🟢 NUEVOS ENDPOINTS FASE 3 - OPCIONALES
+    path('dashboard/residente/<int:residente_id>/', dashboard_controller.dashboard_residente),
+    path('dashboard/guardia/', dashboard_controller.dashboard_guardia),
+    
+    # 🟢 SISTEMA DE NOTIFICACIONES
+    path('notificaciones/push/', notificaciones_controller.enviar_notificacion_push),
+    path('notificaciones/registrar-token/', notificaciones_controller.registrar_token_dispositivo),
 
 ]

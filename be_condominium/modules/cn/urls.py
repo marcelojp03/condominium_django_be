@@ -36,4 +36,5 @@ urlpatterns = [
     path('cuotas/crear/', cuota_controller.cuota_crear),
     path('cuotas/<int:idcuota>/actualizar/', cuota_controller.cuota_actualizar),
     path('cuotas/<int:idcuota>/eliminar/', cuota_controller.cuota_eliminar),
+    path('cuotas/<int:idcuota>/pagar/', cuota_controller.cuota_pagar),  # 🔴 NUEVO - CRÍTICO
 ]

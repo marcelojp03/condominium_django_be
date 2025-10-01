@@ -3,8 +3,11 @@ from modules.ad.repositories.reserva_area_repository import ReservaAreaRepositor
 class ReservaAreaService:
 
     @staticmethod
-    def listar_reservas():
-        return ReservaAreaRepository.listar()
+    def listar_reservas(residente_id=None, estado=None):
+        """
+        🔴 MÉTODO ACTUALIZADO - Soporta filtros para app móvil
+        """
+        return ReservaAreaRepository.listar(residente_id=residente_id, estado=estado)
 
     @staticmethod
     def obtener_reserva(idreserva):

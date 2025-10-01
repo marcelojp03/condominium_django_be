@@ -6,7 +6,14 @@ from modules.ad.dtos.reserva_area_dto import ReservaAreaSerializer
 
 @api_view(['GET'])
 def reserva_area_listar(request):
-    reservas = ReservaAreaService.listar_reservas()
+    # 🔴 FILTRO POR RESIDENTE - CRÍTICO PARA APP MÓVIL
+    residente_id = request.query_params.get('residente_id', None)
+    estado = request.query_params.get('estado', None)
+    
+    reservas = ReservaAreaService.listar_reservas(
+        residente_id=residente_id,
+        estado=estado
+    )
     serializer = ReservaAreaSerializer(reservas, many=True)
     return Response(serializer.data)
 

@@ -1,16 +1,19 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from modules.cn.services.concepto_precio_service import ConceptoPrecioService
 from modules.cn.dtos.concepto_precio_dto import ConceptoPrecioSerializer
 
 @api_view(['GET'])
+@permission_classes([AllowAny])  # Permitir acceso sin autenticación
 def concepto_precio_listar(request):
     conceptos = ConceptoPrecioService.listar_conceptos()
     serializer = ConceptoPrecioSerializer(conceptos, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
+@permission_classes([AllowAny])  # Permitir acceso sin autenticación
 def concepto_precio_detalle(request, idconcepto):
     concepto = ConceptoPrecioService.obtener_concepto(idconcepto)
     if concepto:
