@@ -1,0 +1,1172 @@
+{
+  "api_base_url": "https://si2-condominium-prod.us-east-1.awsapprunner.com",
+  "api_base_url_local": "http://localhost:8000",
+  "version": "2.0.0",
+  "ultima_actualizacion": "2025-10-01",
+  "status": "COMPLETO - SISTEMA WEB ADMINISTRATIVO",
+  "descripcion": "Endpoints para sistema web administrativo del condominio",
+  
+  "perfiles_web": {
+    "ADMIN": "Administrador del condominio - acceso total",
+    "CONTADOR": "Contador - gestión financiera y reportes",
+    "SECRETARIA": "Secretaria - gestión de residentes y comunicación",
+    "SUPERVISOR": "Supervisor de seguridad - monitoreo y reportes"
+  },
+
+  "autenticacion": {
+    "descripcion": "Sistema de autenticación con JWT para acceso web",
+    "endpoints": {
+      "login_web": {
+        "method": "POST",
+        "url": "/ad/auth/login",
+        "descripcion": "Login para usuarios administrativos",
+        "body": {
+          "correo": "string (required) - email del usuario",
+          "password": "string (required) - contraseña"
+        },
+        "ejemplo_body": {
+          "correo": "admin@condominio.com",
+          "password": "admin123"
+        },
+        "respuesta_exitosa": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "token": "jwt_token_string",
+          "usuario_id": 1,
+          "perfil": "ADMIN"
+        },
+        "uso_web": "Página de login administrativo",
+        "status": "✅ LISTO"
+      },
+      "perfil_usuario": {
+        "method": "GET",
+        "url": "/ad/usuarios/{usuario_id}/",
+        "descripcion": "Obtener datos del usuario logueado",
+        "headers": {
+          "Authorization": "Bearer {token}"
+        },
+        "respuesta": {
+          "id": 1,
+          "nombre": "Juan Pérez",
+          "correo": "admin@condominio.com",
+          "foto": "string (url)",
+          "roles": ["ADMIN"]
+        },
+        "uso_web": "Header con datos del usuario, perfil",
+        "status": "✅ LISTO"
+      },
+      "menu_dinamico": {
+        "method": "GET",
+        "url": "/ad/menu/{usuario_id}/",
+        "descripcion": "Menú dinámico según roles del usuario",
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "menu": [
+            {
+              "id": 1,
+              "titulo": "Dashboard",
+              "icono": "dashboard",
+              "url": "/dashboard",
+              "submenu": []
+            }
+          ]
+        },
+        "uso_web": "Sidebar/menú lateral dinámico",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "gestion_residentes": {
+    "descripcion": "CRUD completo de residentes y unidades",
+    "pantalla_web": "Módulo de Residentes",
+    "endpoints": {
+      "listar_residentes": {
+        "method": "GET",
+        "url": "/ad/residentes/",
+        "descripcion": "Lista completa de residentes con filtros",
+        "query_params": {
+          "activos": "boolean (optional) - filtrar por estado activo",
+          "unidad_id": "number (optional) - filtrar por unidad",
+          "search": "string (optional) - buscar por nombre/documento"
+        },
+        "ejemplo_url": "/ad/residentes/?activos=true&search=Juan",
+        "respuesta": [
+          {
+            "idresidente": 1,
+            "nombres": "Juan Carlos",
+            "apellidos": "Pérez Gómez",
+            "documento": {
+              "tipo": "CI",
+              "numero": "12345678"
+            },
+            "unidad": {
+              "idunidad": 1,
+              "numero": "101",
+              "torre": "A"
+            },
+            "telefono": "+591 7xxxxxxx",
+            "correo": "juan@email.com",
+            "foto": "url",
+            "fecha_registro": "2024-01-01",
+            "activo": true
+          }
+        ],
+        "uso_web": "Tabla de residentes con búsqueda y filtros",
+        "status": "✅ LISTO"
+      },
+      "crear_residente": {
+        "method": "POST",
+        "url": "/ad/residentes/",
+        "descripcion": "Crear nuevo residente",
+        "body": {
+          "nombres": "string (required)",
+          "apellidos": "string (required)",
+          "documento_id": "number (required)",
+          "unidad_id": "number (required)",
+          "telefono": "string (optional)",
+          "correo": "string (optional)",
+          "foto": "file (optional)",
+          "relacion": "string (required) - PROPIETARIO | INQUILINO | FAMILIAR"
+        },
+        "uso_web": "Formulario modal crear residente",
+        "status": "✅ LISTO"
+      },
+      "actualizar_residente": {
+        "method": "PUT",
+        "url": "/ad/residentes/{id}/",
+        "descripcion": "Actualizar datos de residente",
+        "body": {
+          "nombres": "string",
+          "apellidos": "string",
+          "telefono": "string",
+          "correo": "string",
+          "activo": "boolean"
+        },
+        "uso_web": "Formulario editar residente",
+        "status": "✅ LISTO"
+      },
+      "eliminar_residente": {
+        "method": "DELETE",
+        "url": "/ad/residentes/{id}/",
+        "descripcion": "Eliminar/desactivar residente",
+        "uso_web": "Botón eliminar en tabla",
+        "status": "✅ LISTO"
+      },
+      "perfil_completo_residente": {
+        "method": "GET",
+        "url": "/ad/residentes/mis-datos/{usuario_id}/",
+        "descripcion": "Perfil completo con unidad, vehículos, documentos",
+        "respuesta": {
+          "residente_id": 1,
+          "usuario_id": 1,
+          "nombres": "Juan Carlos",
+          "apellidos": "Pérez Gómez",
+          "nombre_completo": "Juan Carlos Pérez Gómez",
+          "documento": {
+            "tipo": "CI",
+            "numero": "12345678"
+          },
+          "correo": "juan@email.com",
+          "telefono": "+591 7xxxxxxx",
+          "unidad": {
+            "numero": "101",
+            "torre": "A",
+            "piso": 1
+          },
+          "vehiculos": [
+            {
+              "placa": "ABC123",
+              "marca": "Toyota",
+              "modelo": "Corolla"
+            }
+          ],
+          "fecha_registro": "2024-01-01"
+        },
+        "uso_web": "Vista detallada de residente",
+        "status": "✅ IMPLEMENTADO HOY"
+      }
+    }
+  },
+
+  "gestion_unidades": {
+    "descripcion": "CRUD de unidades y torres",
+    "pantalla_web": "Módulo de Unidades",
+    "endpoints": {
+      "listar_unidades": {
+        "method": "GET",
+        "url": "/ad/unidades/",
+        "descripcion": "Lista de todas las unidades",
+        "query_params": {
+          "torre": "string (optional) - filtrar por torre",
+          "disponible": "boolean (optional) - solo unidades sin residente"
+        },
+        "respuesta": [
+          {
+            "idunidad": 1,
+            "numero": "101",
+            "torre": "A",
+            "piso": 1,
+            "metros_cuadrados": 85.5,
+            "dormitorios": 3,
+            "banos": 2,
+            "residente_principal": {
+              "id": 1,
+              "nombre": "Juan Pérez"
+            }
+          }
+        ],
+        "uso_web": "Tabla de unidades, selector de unidad",
+        "status": "✅ LISTO"
+      },
+      "crear_unidad": {
+        "method": "POST",
+        "url": "/ad/unidades/",
+        "descripcion": "Crear nueva unidad",
+        "body": {
+          "numero": "string (required)",
+          "torre": "string (optional)",
+          "piso": "number (optional)",
+          "metros_cuadrados": "decimal (optional)",
+          "dormitorios": "number (optional)",
+          "banos": "number (optional)"
+        },
+        "uso_web": "Formulario crear unidad",
+        "status": "✅ LISTO"
+      },
+      "actualizar_unidad": {
+        "method": "PUT",
+        "url": "/ad/unidades/{id}/",
+        "descripcion": "Actualizar datos de unidad",
+        "uso_web": "Formulario editar unidad",
+        "status": "✅ LISTO"
+      },
+      "eliminar_unidad": {
+        "method": "DELETE",
+        "url": "/ad/unidades/{id}/",
+        "descripcion": "Eliminar unidad",
+        "uso_web": "Botón eliminar",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "gestion_vehiculos": {
+    "descripcion": "Registro y control de vehículos",
+    "pantalla_web": "Módulo de Vehículos",
+    "endpoints": {
+      "listar_vehiculos": {
+        "method": "GET",
+        "url": "/ad/vehiculos/",
+        "descripcion": "Lista de vehículos registrados",
+        "query_params": {
+          "residente_id": "number (optional)",
+          "placa": "string (optional) - búsqueda por placa"
+        },
+        "respuesta": [
+          {
+            "idvehiculo": 1,
+            "placa": "ABC123",
+            "marca": "Toyota",
+            "modelo": "Corolla",
+            "color": "Blanco",
+            "anio": 2020,
+            "propietario": {
+              "id": 1,
+              "nombre": "Juan Pérez"
+            },
+            "unidad": "Torre A - 101",
+            "fecha_registro": "2024-01-01"
+          }
+        ],
+        "uso_web": "Tabla de vehículos registrados",
+        "status": "✅ LISTO"
+      },
+      "crear_vehiculo": {
+        "method": "POST",
+        "url": "/ad/vehiculos/",
+        "descripcion": "Registrar nuevo vehículo",
+        "body": {
+          "placa": "string (required)",
+          "marca": "string (required)",
+          "modelo": "string (required)",
+          "color": "string (optional)",
+          "anio": "number (optional)",
+          "residente_id": "number (required)"
+        },
+        "uso_web": "Formulario registrar vehículo",
+        "status": "✅ LISTO"
+      },
+      "actualizar_vehiculo": {
+        "method": "PUT",
+        "url": "/ad/vehiculos/{id}/",
+        "descripcion": "Actualizar datos de vehículo",
+        "uso_web": "Formulario editar vehículo",
+        "status": "✅ LISTO"
+      },
+      "eliminar_vehiculo": {
+        "method": "DELETE",
+        "url": "/ad/vehiculos/{id}/",
+        "descripcion": "Eliminar vehículo",
+        "uso_web": "Botón eliminar",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "gestion_financiera": {
+    "descripcion": "Módulo completo de pagos y finanzas",
+    "pantalla_web": "Módulo Financiero",
+    "endpoints": {
+      "listar_cuotas": {
+        "method": "GET",
+        "url": "/cn/cuotas/",
+        "descripcion": "Lista de todas las cuotas con filtros avanzados",
+        "query_params": {
+          "residente_id": "number (optional)",
+          "estado": "string (optional) - PENDIENTE | PAGADO | VENCIDO",
+          "fecha_desde": "string (optional) - YYYY-MM",
+          "fecha_hasta": "string (optional) - YYYY-MM",
+          "concepto_id": "number (optional)"
+        },
+        "ejemplo_url": "/cn/cuotas/?estado=PENDIENTE&fecha_desde=2024-01",
+        "respuesta": [
+          {
+            "idcuota": 1,
+            "residente": {
+              "id": 1,
+              "nombre": "Juan Pérez",
+              "unidad": "Torre A - 101"
+            },
+            "concepto": {
+              "id": 1,
+              "nombre": "Gas Domiciliario",
+              "monto": 50.00
+            },
+            "periodo": "2024-11",
+            "monto": 50.00,
+            "fecha_vencimiento": "2024-11-30",
+            "estado_pago": "PENDIENTE",
+            "dias_vencido": 0,
+            "fecha_pago": null,
+            "comprobante": null
+          }
+        ],
+        "uso_web": "Tabla de cuotas con filtros, dashboard financiero",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "crear_cuota": {
+        "method": "POST",
+        "url": "/cn/cuotas/",
+        "descripcion": "Generar cuota para residente",
+        "body": {
+          "residente_id": "number (required)",
+          "concepto_id": "number (required)",
+          "periodo": "string (required) - YYYY-MM",
+          "monto": "decimal (required)",
+          "fecha_vencimiento": "date (required) - YYYY-MM-DD"
+        },
+        "ejemplo_body": {
+          "residente_id": 1,
+          "concepto_id": 1,
+          "periodo": "2024-11",
+          "monto": 50.00,
+          "fecha_vencimiento": "2024-11-30"
+        },
+        "uso_web": "Formulario generar cuota, generación masiva",
+        "status": "✅ LISTO"
+      },
+      "registrar_pago": {
+        "method": "POST",
+        "url": "/cn/cuotas/{cuota_id}/pagar/",
+        "descripcion": "Registrar pago de cuota",
+        "body": {
+          "forma_pago_id": "number (required)",
+          "monto": "decimal (required)",
+          "comprobante": "string (optional) - URL o base64"
+        },
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "Pago registrado exitosamente",
+          "cuota_id": 1,
+          "estado": "PAGADO",
+          "fecha_pago": "2024-11-01T10:30:00"
+        },
+        "uso_web": "Formulario registrar pago manual",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "conceptos_precio": {
+        "method": "GET",
+        "url": "/cn/conceptos-precio/",
+        "descripcion": "Conceptos de cobro disponibles",
+        "respuesta": [
+          {
+            "idconcepto": 1,
+            "nombre": "Gas Domiciliario",
+            "descripcion": "Servicio mensual de gas",
+            "monto": 50.00,
+            "tipo": "SERVICIO",
+            "vigente": true
+          }
+        ],
+        "uso_web": "Selector de concepto, configuración de precios",
+        "status": "✅ LISTO"
+      },
+      "crear_concepto": {
+        "method": "POST",
+        "url": "/cn/conceptos-precio/",
+        "descripcion": "Crear nuevo concepto de cobro",
+        "body": {
+          "nombre": "string (required)",
+          "descripcion": "string (optional)",
+          "monto": "decimal (required)",
+          "tipo": "string (required) - SERVICIO | CUOTA | MULTA | EXTRA"
+        },
+        "uso_web": "Formulario configurar concepto",
+        "status": "✅ LISTO"
+      },
+      "formas_pago": {
+        "method": "GET",
+        "url": "/cn/formas-pago/",
+        "descripcion": "Métodos de pago disponibles",
+        "respuesta": [
+          {
+            "idformapago": 1,
+            "nombre": "Transferencia Bancaria",
+            "descripcion": "Banco XYZ - Cuenta 123456",
+            "activo": true
+          }
+        ],
+        "uso_web": "Selector método de pago",
+        "status": "✅ LISTO"
+      },
+      "reporte_financiero": {
+        "method": "GET",
+        "url": "/cn/reportes/financiero/",
+        "descripcion": "Reporte financiero consolidado",
+        "query_params": {
+          "fecha_desde": "string (required) - YYYY-MM-DD",
+          "fecha_hasta": "string (required) - YYYY-MM-DD",
+          "formato": "string (optional) - json | pdf | excel"
+        },
+        "respuesta": {
+          "periodo": {
+            "desde": "2024-01-01",
+            "hasta": "2024-12-31"
+          },
+          "resumen": {
+            "total_cobrado": 50000.00,
+            "total_pendiente": 15000.00,
+            "total_vencido": 5000.00,
+            "porcentaje_cobranza": 76.9
+          },
+          "por_concepto": [
+            {
+              "concepto": "Gas Domiciliario",
+              "cobrado": 10000.00,
+              "pendiente": 2000.00
+            }
+          ]
+        },
+        "uso_web": "Dashboard financiero, reportes",
+        "status": "⚠️ OPCIONAL - A IMPLEMENTAR"
+      }
+    }
+  },
+
+  "gestion_areas_comunes": {
+    "descripcion": "Gestión de áreas comunes y reservas",
+    "pantalla_web": "Módulo de Áreas Comunes",
+    "endpoints": {
+      "listar_areas": {
+        "method": "GET",
+        "url": "/ad/areas-comunes/",
+        "descripcion": "Lista de áreas comunes",
+        "respuesta": [
+          {
+            "idarea": 1,
+            "nombre": "Salón de Fiestas",
+            "descripcion": "Salón para eventos",
+            "capacidad": 50,
+            "tarifa": 100.00,
+            "disponible": true
+          }
+        ],
+        "uso_web": "Tabla de áreas, configuración",
+        "status": "✅ LISTO"
+      },
+      "crear_area": {
+        "method": "POST",
+        "url": "/ad/areas-comunes/",
+        "descripcion": "Crear nueva área común",
+        "body": {
+          "nombre": "string (required)",
+          "descripcion": "string (optional)",
+          "capacidad": "number (optional)",
+          "tarifa": "decimal (optional)"
+        },
+        "uso_web": "Formulario crear área",
+        "status": "✅ LISTO"
+      },
+      "listar_reservas": {
+        "method": "GET",
+        "url": "/ad/reservas-area/",
+        "descripcion": "Lista de reservas con filtros",
+        "query_params": {
+          "residente_id": "number (optional)",
+          "area_id": "number (optional)",
+          "fecha_desde": "date (optional)",
+          "estado": "string (optional) - CONFIRMADO | PENDIENTE | CANCELADO"
+        },
+        "respuesta": [
+          {
+            "idreserva": 1,
+            "area": {
+              "id": 1,
+              "nombre": "Salón de Fiestas"
+            },
+            "residente": {
+              "id": 1,
+              "nombre": "Juan Pérez",
+              "unidad": "101"
+            },
+            "fecha_reserva": "2024-12-15",
+            "hora_inicio": "14:00",
+            "hora_fin": "18:00",
+            "estado_reserva": "CONFIRMADO",
+            "observaciones": "Cumpleaños infantil"
+          }
+        ],
+        "uso_web": "Calendario de reservas, tabla de reservas",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "crear_reserva": {
+        "method": "POST",
+        "url": "/ad/reservas-area/",
+        "descripcion": "Crear nueva reserva",
+        "body": {
+          "area_id": "number (required)",
+          "residente_id": "number (required)",
+          "fecha_evento": "date (required)",
+          "hora_inicio": "time (required)",
+          "hora_fin": "time (required)",
+          "observaciones": "string (optional)"
+        },
+        "uso_web": "Formulario reservar área",
+        "status": "✅ LISTO"
+      },
+      "actualizar_reserva": {
+        "method": "PUT",
+        "url": "/ad/reservas-area/{id}/",
+        "descripcion": "Actualizar estado de reserva",
+        "body": {
+          "estado_reserva": "string - CONFIRMADO | CANCELADO"
+        },
+        "uso_web": "Aprobar/cancelar reserva",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "comunicacion": {
+    "descripcion": "Gestión de avisos y comunicados",
+    "pantalla_web": "Módulo de Comunicación",
+    "endpoints": {
+      "listar_avisos": {
+        "method": "GET",
+        "url": "/ad/avisos/",
+        "descripcion": "Lista de avisos publicados",
+        "query_params": {
+          "activos": "boolean (optional)"
+        },
+        "respuesta": [
+          {
+            "idaviso": 1,
+            "titulo": "Corte de agua programado",
+            "contenido": "El día 15/11 habrá corte de agua...",
+            "fecha_publicacion": "2024-11-01",
+            "vigente_hasta": "2024-11-15",
+            "publicado_por": {
+              "id": 1,
+              "nombre": "Admin"
+            }
+          }
+        ],
+        "uso_web": "Tabla de avisos, gestión de comunicados",
+        "status": "✅ LISTO"
+      },
+      "crear_aviso": {
+        "method": "POST",
+        "url": "/ad/avisos/",
+        "descripcion": "Publicar nuevo aviso",
+        "body": {
+          "titulo": "string (required)",
+          "contenido": "text (required)",
+          "vigente_hasta": "date (optional)",
+          "usuario_id": "number (required)"
+        },
+        "uso_web": "Formulario crear aviso/comunicado",
+        "status": "✅ LISTO"
+      },
+      "actualizar_aviso": {
+        "method": "PUT",
+        "url": "/ad/avisos/{id}/",
+        "descripcion": "Actualizar aviso",
+        "uso_web": "Editar aviso",
+        "status": "✅ LISTO"
+      },
+      "eliminar_aviso": {
+        "method": "DELETE",
+        "url": "/ad/avisos/{id}/",
+        "descripcion": "Eliminar aviso",
+        "uso_web": "Eliminar comunicado",
+        "status": "✅ LISTO"
+      },
+      "enviar_notificacion": {
+        "method": "POST",
+        "url": "/ad/notificaciones/push/",
+        "descripcion": "Enviar notificación push a residentes/guardias",
+        "body": {
+          "destinatarios": "array (required) - ['RESIDENTES', 'GUARDIAS', 'ADMIN']",
+          "titulo": "string (required)",
+          "mensaje": "string (required)",
+          "tipo": "string (optional) - URGENTE | INFO | ALERTA"
+        },
+        "ejemplo_body": {
+          "destinatarios": ["RESIDENTES"],
+          "titulo": "Aviso importante",
+          "mensaje": "Reunión de propietarios el 15/11",
+          "tipo": "INFO"
+        },
+        "uso_web": "Envío masivo de notificaciones",
+        "status": "✅ IMPLEMENTADO HOY (simulado)"
+      }
+    }
+  },
+
+  "monitoreo_seguridad": {
+    "descripcion": "Monitoreo y control de accesos - IA Security",
+    "pantalla_web": "Módulo de Seguridad",
+    "endpoints": {
+      "eventos_acceso": {
+        "method": "GET",
+        "url": "/api/ai/eventos-acceso/",
+        "descripcion": "Log completo de eventos de acceso (rostros y placas)",
+        "query_params": {
+          "fecha": "string (optional) - YYYY-MM-DD",
+          "tipo": "string (optional) - ROSTRO | PLACA",
+          "resultado": "string (optional) - PERMITIDO | DENEGADO",
+          "fecha_desde": "string (optional)",
+          "fecha_hasta": "string (optional)"
+        },
+        "ejemplo_url": "/api/ai/eventos-acceso/?fecha=2024-11-01&tipo=ROSTRO",
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "total": 150,
+          "eventos": [
+            {
+              "id": 1,
+              "timestamp": "2024-11-01T14:30:00",
+              "tipo": "ROSTRO",
+              "resultado": "PERMITIDO",
+              "residente": "Juan Pérez",
+              "unidad": "Torre A - 101",
+              "confidence": 95.5,
+              "imagen": "url_imagen",
+              "guardia": "Carlos Gómez"
+            }
+          ]
+        },
+        "uso_web": "Tabla de eventos de acceso, dashboard de seguridad",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "registrar_evento_manual": {
+        "method": "POST",
+        "url": "/api/ai/registrar-evento-manual/",
+        "descripcion": "Registro manual de visita/evento",
+        "body": {
+          "tipo": "string (required) - VISITA | DELIVERY | MANTENIMIENTO",
+          "descripcion": "string (optional)",
+          "residente_id": "number (optional)",
+          "visitante_nombre": "string (optional)",
+          "documento": "string (optional)"
+        },
+        "uso_web": "Formulario registro manual de visitas",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "eventos_sospechosos": {
+        "method": "GET",
+        "url": "/api/ai/eventos-sospechosos/",
+        "descripcion": "Alertas de comportamientos sospechosos detectados",
+        "query_params": {
+          "fecha_desde": "string (optional)",
+          "atendido": "boolean (optional)"
+        },
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "total": 5,
+          "eventos": [
+            {
+              "id": 1,
+              "timestamp": "2024-11-01T02:30:00",
+              "tipo_comportamiento": "PERSONA_SOSPECHOSA",
+              "confidence": 87.3,
+              "ubicacion": "Entrada principal",
+              "imagen": "url_imagen",
+              "atendido": false,
+              "metadatos": {}
+            }
+          ]
+        },
+        "uso_web": "Panel de alertas de seguridad",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "atender_evento_sospechoso": {
+        "method": "PUT",
+        "url": "/api/ai/eventos-sospechosos/{id}/atender/",
+        "descripcion": "Marcar evento como atendido",
+        "body": {
+          "guardia_id": "number (required)",
+          "observaciones": "string (optional)"
+        },
+        "uso_web": "Resolver alerta de seguridad",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "escanear_rostro": {
+        "method": "POST",
+        "url": "/api/ai/escanear-rostro/",
+        "descripcion": "Reconocimiento facial desde web",
+        "content_type": "multipart/form-data",
+        "body": {
+          "image": "File (required)"
+        },
+        "respuesta": {
+          "matched": true,
+          "resident": "Juan Pérez",
+          "confidence": 95.5,
+          "unidad": "Torre A - 101",
+          "face_id": "string"
+        },
+        "uso_web": "Upload de foto para verificación",
+        "status": "✅ LISTO"
+      },
+      "escanear_placa": {
+        "method": "POST",
+        "url": "/api/ai/escanear-placa/",
+        "descripcion": "OCR de placa vehicular desde web",
+        "content_type": "multipart/form-data",
+        "body": {
+          "image": "File (required)"
+        },
+        "respuesta": {
+          "placa_detectada": "ABC123",
+          "confidence": 92.0,
+          "vehiculo_registrado": true,
+          "propietario": "Juan Pérez",
+          "unidad": "Torre A - 101"
+        },
+        "uso_web": "Upload de foto de placa",
+        "status": "✅ LISTO"
+      }
+    }
+  },
+
+  "dashboards": {
+    "descripcion": "Dashboards estadísticos para web",
+    "pantalla_web": "Dashboard Principal",
+    "endpoints": {
+      "dashboard_admin": {
+        "method": "GET",
+        "url": "/ad/dashboard/admin/",
+        "descripcion": "Dashboard general del administrador",
+        "respuesta": {
+          "codigo": 0,
+          "mensaje": "OK",
+          "dashboard": {
+            "total_unidades": 120,
+            "unidades_ocupadas": 115,
+            "total_residentes": 380,
+            "cuotas_pendientes": 45,
+            "monto_pendiente": 22500.00,
+            "reservas_mes": 23,
+            "avisos_activos": 5,
+            "accesos_hoy": 156,
+            "alertas_pendientes": 2
+          }
+        },
+        "uso_web": "Dashboard principal del sistema",
+        "status": "⚠️ OPCIONAL - A IMPLEMENTAR"
+      },
+      "dashboard_financiero": {
+        "method": "GET",
+        "url": "/ad/dashboard/financiero/",
+        "descripcion": "Dashboard financiero",
+        "query_params": {
+          "periodo": "string (optional) - MES | TRIMESTRE | AÑO"
+        },
+        "respuesta": {
+          "periodo": "2024-11",
+          "ingresos": {
+            "total": 50000.00,
+            "por_concepto": []
+          },
+          "pendientes": {
+            "total": 15000.00,
+            "vencidos": 5000.00
+          },
+          "grafico_mensual": []
+        },
+        "uso_web": "Sección finanzas del dashboard",
+        "status": "⚠️ OPCIONAL - A IMPLEMENTAR"
+      },
+      "dashboard_residente": {
+        "method": "GET",
+        "url": "/ad/dashboard/residente/{residente_id}/",
+        "descripcion": "Dashboard individual de residente",
+        "respuesta": {
+          "residente": {
+            "id": 1,
+            "nombre": "Juan Pérez",
+            "unidad": "Torre A - 101"
+          },
+          "cuotas_pendientes": 2,
+          "monto_total_pendiente": 150.00,
+          "proxima_cuota_vence": "2024-11-30",
+          "reservas_activas": 1,
+          "avisos_sin_leer": 3,
+          "estadisticas_6meses": {
+            "pagos_realizados": 6,
+            "total_pagado": 300.00
+          }
+        },
+        "uso_web": "Vista perfil de residente",
+        "status": "✅ IMPLEMENTADO HOY"
+      },
+      "dashboard_guardia": {
+        "method": "GET",
+        "url": "/ad/dashboard/guardia/",
+        "descripcion": "Dashboard para supervisor de seguridad",
+        "respuesta": {
+          "fecha": "2024-11-01",
+          "accesos_hoy": 156,
+          "visitantes_permitidos": 112,
+          "intentos_denegados": 44,
+          "vehiculos_ingresados": 89,
+          "alertas_pendientes": 2,
+          "ultima_actividad": "2024-11-01T15:45:00",
+          "resumen_turno": {
+            "maniana": 78,
+            "tarde": 54,
+            "noche": 24
+          }
+        },
+        "uso_web": "Panel de control de seguridad",
+        "status": "✅ IMPLEMENTADO HOY"
+      }
+    }
+  },
+
+  "gestion_usuarios": {
+    "descripcion": "CRUD de usuarios del sistema",
+    "pantalla_web": "Módulo de Usuarios",
+    "endpoints": {
+      "listar_usuarios": {
+        "method": "GET",
+        "url": "/ad/usuarios/",
+        "descripcion": "Lista de usuarios del sistema",
+        "query_params": {
+          "rol": "string (optional) - ADMIN | CONTADOR | GUARDIA",
+          "activo": "boolean (optional)"
+        },
+        "respuesta": [
+          {
+            "id": 1,
+            "nombre": "Carlos Admin",
+            "correo": "admin@condominio.com",
+            "roles": ["ADMIN"],
+            "activo": true,
+            "fecha_creacion": "2024-01-01"
+          }
+        ],
+        "uso_web": "Tabla de usuarios administrativos",
+        "status": "✅ LISTO"
+      },
+      "crear_usuario": {
+        "method": "POST",
+        "url": "/ad/usuarios/",
+        "descripcion": "Crear nuevo usuario del sistema",
+        "body": {
+          "nombre": "string (required)",
+          "correo": "string (required)",
+          "password": "string (required)",
+          "roles": "array (required) - ['ADMIN', 'GUARDIA', etc]"
+        },
+        "uso_web": "Formulario crear usuario",
+        "status": "✅ LISTO"
+      },
+      "actualizar_usuario": {
+        "method": "PUT",
+        "url": "/ad/usuarios/{id}/",
+        "descripcion": "Actualizar usuario",
+        "body": {
+          "nombre": "string",
+          "correo": "string",
+          "roles": "array",
+          "activo": "boolean"
+        },
+        "uso_web": "Editar usuario",
+        "status": "✅ LISTO"
+      },
+      "cambiar_password": {
+        "method": "POST",
+        "url": "/ad/usuarios/{id}/cambiar-password/",
+        "descripcion": "Cambiar contraseña de usuario",
+        "body": {
+          "password_actual": "string (required)",
+          "password_nuevo": "string (required)"
+        },
+        "uso_web": "Formulario cambiar contraseña",
+        "status": "⚠️ OPCIONAL - A IMPLEMENTAR"
+      }
+    }
+  },
+
+  "reportes": {
+    "descripcion": "Sistema de reportes e informes",
+    "pantalla_web": "Módulo de Reportes",
+    "endpoints": {
+      "reporte_financiero": {
+        "method": "GET",
+        "url": "/cn/reportes/financiero/",
+        "descripcion": "Reporte financiero consolidado",
+        "query_params": {
+          "fecha_desde": "string (required)",
+          "fecha_hasta": "string (required)",
+          "formato": "string (optional) - json | pdf | excel"
+        },
+        "uso_web": "Generador de reportes financieros",
+        "status": "⚠️ A IMPLEMENTAR"
+      },
+      "reporte_morosos": {
+        "method": "GET",
+        "url": "/cn/reportes/morosos/",
+        "descripcion": "Reporte de residentes con deuda",
+        "respuesta": [
+          {
+            "residente": "Juan Pérez",
+            "unidad": "101",
+            "cuotas_vencidas": 3,
+            "monto_total": 150.00,
+            "dias_mora": 45
+          }
+        ],
+        "uso_web": "Tabla de morosos para seguimiento",
+        "status": "⚠️ A IMPLEMENTAR"
+      },
+      "reporte_accesos": {
+        "method": "GET",
+        "url": "/api/ai/reportes/accesos/",
+        "descripcion": "Reporte de accesos por periodo",
+        "query_params": {
+          "fecha_desde": "string (required)",
+          "fecha_hasta": "string (required)",
+          "tipo": "string (optional) - ROSTRO | PLACA"
+        },
+        "uso_web": "Reporte de seguridad",
+        "status": "⚠️ A IMPLEMENTAR"
+      },
+      "reporte_reservas": {
+        "method": "GET",
+        "url": "/ad/reportes/reservas/",
+        "descripcion": "Reporte de uso de áreas comunes",
+        "query_params": {
+          "fecha_desde": "string (required)",
+          "fecha_hasta": "string (required)",
+          "area_id": "number (optional)"
+        },
+        "uso_web": "Estadísticas de reservas",
+        "status": "⚠️ A IMPLEMENTAR"
+      }
+    }
+  },
+
+  "configuracion": {
+    "descripcion": "Configuración general del sistema",
+    "pantalla_web": "Configuración",
+    "endpoints": {
+      "configuracion_general": {
+        "method": "GET",
+        "url": "/ad/configuracion/",
+        "descripcion": "Obtener configuración general",
+        "respuesta": {
+          "nombre_condominio": "Condominio Los Pinos",
+          "direccion": "Av. Principal 123",
+          "telefono": "+591 3xxxxxxx",
+          "correo": "info@condominio.com",
+          "total_unidades": 120,
+          "horario_atencion": "08:00 - 18:00"
+        },
+        "uso_web": "Página de configuración",
+        "status": "⚠️ A IMPLEMENTAR"
+      },
+      "actualizar_configuracion": {
+        "method": "PUT",
+        "url": "/ad/configuracion/",
+        "descripcion": "Actualizar configuración",
+        "body": {
+          "nombre_condominio": "string",
+          "direccion": "string",
+          "telefono": "string"
+        },
+        "uso_web": "Formulario configuración",
+        "status": "⚠️ A IMPLEMENTAR"
+      }
+    }
+  },
+
+  "notas_implementacion_web": {
+    "backend_url": "https://si2-condominium-prod.us-east-1.awsapprunner.com",
+    "swagger_ui": "https://si2-condominium-prod.us-east-1.awsapprunner.com/api/docs/",
+    "framework_recomendado": "React + TypeScript + Material-UI / Vue.js + Vuetify / Angular",
+    "autenticacion": {
+      "tipo": "JWT Bearer Token",
+      "almacenamiento": "localStorage o sessionStorage",
+      "header": "Authorization: Bearer {token}",
+      "refresh": "Implementar mecanismo de refresh token"
+    },
+    "manejo_errores": {
+      "401": "Sesión expirada - redirigir a login",
+      "403": "Sin permisos - mostrar mensaje de acceso denegado",
+      "404": "Recurso no encontrado",
+      "500": "Error del servidor - mostrar mensaje amigable"
+    },
+    "caracteristicas_web": {
+      "responsive": "Diseño adaptable a tablets y desktop",
+      "tablas": "Usar DataTables o AG-Grid para tablas grandes",
+      "graficos": "Chart.js o Recharts para dashboards",
+      "calendario": "FullCalendar para reservas",
+      "notificaciones": "Toast/Snackbar para feedback",
+      "modals": "Para formularios crear/editar",
+      "filtros": "Filtros avanzados en todas las tablas",
+      "exportacion": "PDF y Excel para reportes"
+    },
+    "seguridad": {
+      "cors": "Configurado en backend para permitir origen web",
+      "csrf": "No necesario con JWT",
+      "validacion": "Validar en frontend y backend",
+      "sanitizacion": "Sanitizar inputs para prevenir XSS"
+    }
+  },
+
+  "modulos_web_sugeridos": [
+    {
+      "nombre": "Dashboard",
+      "ruta": "/dashboard",
+      "descripcion": "Panel principal con estadísticas generales",
+      "componentes": [
+        "Tarjetas con KPIs",
+        "Gráficos de ingresos",
+        "Lista de pendientes",
+        "Alertas recientes"
+      ]
+    },
+    {
+      "nombre": "Residentes",
+      "ruta": "/residentes",
+      "descripcion": "Gestión completa de residentes",
+      "componentes": [
+        "Tabla con búsqueda y filtros",
+        "Modal crear/editar residente",
+        "Vista detallada de residente",
+        "Asignación a unidades"
+      ]
+    },
+    {
+      "nombre": "Finanzas",
+      "ruta": "/finanzas",
+      "descripcion": "Módulo financiero completo",
+      "componentes": [
+        "Dashboard financiero",
+        "Tabla de cuotas",
+        "Generación de cuotas",
+        "Registro de pagos",
+        "Reportes financieros"
+      ]
+    },
+    {
+      "nombre": "Áreas Comunes",
+      "ruta": "/areas-comunes",
+      "descripcion": "Gestión de reservas",
+      "componentes": [
+        "Calendario de reservas",
+        "Lista de áreas",
+        "Formulario de reserva",
+        "Aprobación de reservas"
+      ]
+    },
+    {
+      "nombre": "Seguridad",
+      "ruta": "/seguridad",
+      "descripcion": "Monitoreo y control de accesos",
+      "componentes": [
+        "Log de eventos en tiempo real",
+        "Panel de alertas",
+        "Registro manual de visitas",
+        "Estadísticas de accesos"
+      ]
+    },
+    {
+      "nombre": "Comunicación",
+      "ruta": "/comunicacion",
+      "descripcion": "Avisos y notificaciones",
+      "componentes": [
+        "Lista de avisos",
+        "Editor de avisos (WYSIWYG)",
+        "Envío de notificaciones push",
+        "Historial de comunicados"
+      ]
+    },
+    {
+      "nombre": "Reportes",
+      "ruta": "/reportes",
+      "descripcion": "Sistema de reportes",
+      "componentes": [
+        "Generador de reportes",
+        "Exportación PDF/Excel",
+        "Reportes predefinidos",
+        "Visualizaciones"
+      ]
+    },
+    {
+      "nombre": "Configuración",
+      "ruta": "/configuracion",
+      "descripcion": "Configuración del sistema",
+      "componentes": [
+        "Datos del condominio",
+        "Usuarios del sistema",
+        "Conceptos de cobro",
+        "Formas de pago"
+      ]
+    }
+  ],
+
+  "resumen_estado": {
+    "total_endpoints_web": 60,
+    "endpoints_listos": 48,
+    "endpoints_implementados_hoy": 12,
+    "endpoints_a_implementar": 12,
+    "backend_funcional": true,
+    "prioridad_implementacion": [
+      "Dashboard admin (opcional pero recomendado)",
+      "Reportes financieros (importante para contadores)",
+      "Reporte de morosos (seguimiento de cobranza)",
+      "Cambiar contraseña (seguridad básica)",
+      "Configuración general (datos del condominio)"
+    ],
+    "fecha_completado": "2025-10-01",
+    "recomendacion": "Backend completo para web administrativa. Endpoints CRUD listos. Implementar dashboards y reportes según prioridad."
+  }
+}
